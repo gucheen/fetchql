@@ -4,7 +4,8 @@
   "description": "GraphQL query client with Fetch",
   "main": "./index",
   "scripts": {
-    "test": "mocha test"
+    "pretest": "cd node_modules/graphql-intro && npm start",
+    "test": "./node_modules/.bin/mocha test"
   },
   "keywords": [
     "grahpql",
