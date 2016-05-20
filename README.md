@@ -10,14 +10,68 @@ FetchQL is an query client for GraphQL server works on both browser and Node(nee
   * get enum types by names (with cache)
   * written in ES2015 and modules
   
-## Usage
+## Documentation
+  * **Class FetchQL**
+  
+    `var Query = new FetchQL({url: ''})`
+    
+    You may pass url in parameters or set it later.
+    
+  * **FetchQL.query()**
+  
+    `Query.query({operationName: '', query: '', variables: '{}'})` => Promise
+    
+    Method for query data from the server. `operationName` **must** be provided.
+    
+    `query` and `variables` are followed the specification fo GraphQL.
+    
+    If any errors exists(from query response), will reject the promise.
+    
+  * **FetchQL.getEnumTypes()**
+  
+    `Query.getEnumTypes(['array', 'of', 'enum', 'name'])` => Promise
+    
+    Will get enums' information from server. Then you can get a following Object in promise:
+    
+    ```js
+    {
+      array: {
+        name: '',
+        kind: '',
+        description: '',
+        enumValues: {
+          name: '',
+          description: '',
+        }
+      },
+      of: {...},
+      enum: {...},
+      name: {...}
+    }
+    ```
+    
+    This method currently support caching. All enum will be cached after first querying.
+    
+  * **FetchQL.getUrl()**
+  
+    Return current server address.
+    
+  * **FetchQL.setUrl()**
+  
+    `Query.setUrl('')`
+    
+    Set a new server address.
+  
+    
+  
+## .js or .mjs
 
 * Use `index.js` in any ES2015 environment.
 * Use `index.mjs` for Node (version >= 6.0) without babel, because Node does support ES2015 modules natively.
 
 ## Develop
 
-You may use graphql-intro as an develop server-side.
+You may use `graphql-intro` as an develop server-side.
 
 ## LICENSE
 

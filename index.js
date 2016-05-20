@@ -1,7 +1,7 @@
 class FetchQL {
   /**
-   *
-   * @param {String} url - API 地址
+   * FetchQL Class
+   * @param {String} url - the server address of GraphQL
    */
   constructor({ url }) {
     this.requestObject = {
@@ -37,6 +37,7 @@ class FetchQL {
       .then(res => res.json())
       .then(response => (
         new Promise((resolve, reject) => {
+          // if any errors, reject the promise
           if (response.errors && response.errors.length) {
             reject(response);
           }
@@ -46,7 +47,7 @@ class FetchQL {
   }
 
   /**
-   * 获取当前的 url
+   * get current server address
    * @returns {String}
    */
   getUrl() {
@@ -54,7 +55,7 @@ class FetchQL {
   }
 
   /**
-   * 设置新的 url
+   * setting a new server address
    * @param {String} url
    */
   setUrl(url) {
@@ -62,8 +63,8 @@ class FetchQL {
   }
 
   /**
-   * 获取 ENUM 类型的 type 对象
-   * @param EnumNameList - ENUM 对象 name 数组
+   * get information of enum type
+   * @param [String]EnumNameList - array of enums' name
    * @returns {Promise}
    */
   getEnumTypes(EnumNameList) {
@@ -79,7 +80,7 @@ class FetchQL {
       return true;
     });
     
-    // return data when all enums have been cached
+    // immediately return the data if all enums have been cached
     if (!unCachedEnumList.length) {
       return new Promise((resolve) => {
         resolve({ data: fullData });
