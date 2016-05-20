@@ -78,6 +78,13 @@ class FetchQL {
       }
       return true;
     });
+    
+    // return data when all enums have been cached
+    if (!unCachedEnumList.length) {
+      return new Promise((resolve) => {
+        resolve({ data: fullData });
+      });
+    }
 
     // build query string for uncached enums
     let EnumTypeQuery = unCachedEnumList.map(type => (
