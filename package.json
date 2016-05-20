@@ -7,6 +7,10 @@
     "pretest": "cd node_modules/graphql-intro && npm start",
     "test": "./node_modules/.bin/mocha test"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gucheen/FetchQL.git"
+  },
   "keywords": [
     "grahpql",
     "fetch"
