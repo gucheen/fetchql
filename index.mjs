@@ -19,6 +19,9 @@ class FetchQL {
     };
 
     this._url = url;
+
+    // using for caching enums' type
+    this.EnumMap = {};
   }
 
   /**
@@ -70,11 +73,24 @@ class FetchQL {
    * @returns {Promise}
    */
   getEnumTypes(EnumNameList) {
-    let EnumTypeQuery = EnumNameList.map(type => (
+    var fullData = {};
+
+    // check cache status
+    let unCachedEnumList = EnumNameList.filter(element => {
+      if (this.EnumMap[element]) {
+        // enum has been cached
+        fullData[element] = this.EnumMap[element];
+        return false;
+      }
+      return true;
+    });
+
+    // build query string for uncached enums
+    let EnumTypeQuery = unCachedEnumList.map(type => (
       `${type}: __type(name: "${type}") {
           kind
           description
-          enumValues{
+          enumValues {
             name
             description
           }
@@ -89,12 +105,20 @@ class FetchQL {
     options.body = JSON.stringify({ query });
     return fetch(this._url, options)
       .then(res => res.json())
-      .then(response => (
+      .then(({ data, errors }) => (
         new Promise((resolve, reject) => {
-          if (response.errors && response.errors.length) {
-            reject(response);
+          // merge enums' data
+          let passData = Object.assign(fullData, data);
+          if (errors && errors.length) {
+            reject({ data: passData, errors });
           }
-          resolve(response);
+          // cache new enums' data
+          for (var key in data) {
+            if (data.hasOwnProperty(key)) {
+              this.EnumMap[key] = data[key];
+            }
+          }
+          resolve({ data: passData, errors });
         })
       ));
   }

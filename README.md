@@ -7,7 +7,7 @@ FetchQL is an query client for GraphQL server works on both browser and Node(nee
   * lightweight
   * wrap query methods
   * easily set server-side
-  * get enum types by names
+  * get enum types by names (with cache)
   * written in ES2015 and modules
   
 ## Usage
