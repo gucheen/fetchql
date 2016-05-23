@@ -96,19 +96,24 @@ class FetchQL {
     // build query string for uncached enums
     let EnumTypeQuery = unCachedEnumList.map(type => (
       `${type}: __type(name: "${type}") {
-          kind
-          description
-          enumValues {
-            name
-            description
-          }
-        }`
+        ...EnumFragment
+      }`
     ));
+    
     let query = `
       query {
         ${EnumTypeQuery.join('\n')}
       }
-    `;
+      
+      fragment EnumFragment on __Type {
+        kind
+        description
+        enumValues {
+          name
+          description
+        }
+      }`;
+    
     let options = Object.assign({}, this.requestObject);
     options.body = JSON.stringify({ query });
     return fetch(this._url, options)
