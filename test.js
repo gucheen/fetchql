@@ -10,24 +10,6 @@ const testQuery = `
     user(username: "BlinkTunnel") {
       name
       id
-      avatar_url
-      html_url
-      type
-      name
-      company
-      blog
-      location
-      email
-      bio
-      public_repos
-      followers
-      following
-      repositories {
-        id
-        name
-        description
-        stargazers_count
-      }
     }
   }
 `;
