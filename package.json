@@ -2,10 +2,11 @@
   "name": "fetchql",
   "version": "1.1.3",
   "description": "GraphQL query client with Fetch",
-  "main": "./index",
+  "main": "./build/fetchql.js",
   "scripts": {
     "pretest": "cd node_modules/graphql-intro && npm start",
-    "test": "./node_modules/.bin/mocha test"
+    "test": "./node_modules/.bin/mocha test",
+    "compile": "node_modules/.bin/babel index.js --out-file build/fetchql.js"
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,10 @@
   "author": "guchengf@gmail.com",
   "license": "MIT",
   "devDependencies": {
+    "babel-cli": "^6.9.0",
+    "babel-core": "^6.9.0",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-stage-0": "^6.5.0",
     "chai": "^3.5.0",
     "graphql-intro": "git+https://github.com/BlinkTunnel/graphql-intro.git",
     "mocha": "^2.4.5",
