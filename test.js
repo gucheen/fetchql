@@ -3,7 +3,7 @@
  */
 var expect = require('chai').expect;
 var fetch = require('node-fetch');
-var FetchQL = require('./index');
+var FetchQL = require('./lib/index.mjs');
 
 const testQuery = `
   query Query {

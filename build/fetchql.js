@@ -10,7 +10,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-if ((typeof module === 'undefined' ? 'undefined' : _typeof(module)) === 'object') {
+if ((typeof process === 'undefined' ? 'undefined' : _typeof(process)) === 'object' && process + '' === '[object process]' && !process.browser) {
   try {
     var fetch = require('node-fetch');
   } catch (error) {
@@ -66,13 +66,26 @@ var FetchQL = function () {
         variables: JSON.stringify(variables)
       };
       options.body = JSON.stringify(body);
-      return fetch(this._url, options).then(function (res) {
-        return res.json();
+      return window.fetch(this._url, options).then(function (res) {
+        if (res.status >= 400) {
+          return new Promise(function (resolve, reject) {
+            return reject(res);
+          });
+        } else {
+          return res.json();
+        }
       }).then(function (response) {
         return new Promise(function (resolve, reject) {
-          // if any errors, reject the promise
-          if (response.errors && response.errors.length) {
-            reject(response);
+          // if data in response is 'null'
+          if (!response.data) {
+            return reject(response.errors);
+          }
+          // if all properties of data is 'null'
+          var allDataKeyEmpty = Object.keys(response.data).every(function (key) {
+            return !response.data[key];
+          });
+          if (allDataKeyEmpty) {
+            return reject(response.errors);
           }
           resolve(response);
         });
@@ -140,7 +153,7 @@ var FetchQL = function () {
 
       var options = Object.assign({}, this.requestObject);
       options.body = JSON.stringify({ query: query });
-      return fetch(this._url, options).then(function (res) {
+      return window.fetch(this._url, options).then(function (res) {
         return res.json();
       }).then(function (_ref3) {
         var data = _ref3.data;
