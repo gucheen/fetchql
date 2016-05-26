@@ -6,7 +6,17 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+if ((typeof module === 'undefined' ? 'undefined' : _typeof(module)) === 'object') {
+  try {
+    var fetch = require('node-fetch');
+  } catch (error) {
+    throw 'Current environment doesn\'t supoort Fetch method';
+  }
+}
 
 var FetchQL = function () {
   /**
@@ -157,5 +167,3 @@ var FetchQL = function () {
 }();
 
 exports.default = FetchQL;
-
-//# sourceMappingURL=fetchql.js.map

@@ -2,11 +2,11 @@
   "name": "fetchql",
   "version": "1.2.0",
   "description": "GraphQL query client with Fetch",
-  "main": "./build/fetchql.js",
+  "main": "index.js",
   "scripts": {
     "pretest": "cd node_modules/graphql-intro && npm start",
     "test": "./node_modules/.bin/mocha test",
-    "compile": "node_modules/.bin/babel index.js --out-file build/fetchql.js"
+    "compile": "node_modules/.bin/babel lib/index.js --out-file build/fetchql.js"
   },
   "repository": {
     "type": "git",
