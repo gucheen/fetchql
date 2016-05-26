@@ -6,17 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-if ((typeof process === 'undefined' ? 'undefined' : _typeof(process)) === 'object' && process + '' === '[object process]' && !process.browser) {
-  try {
-    var fetch = require('node-fetch');
-  } catch (error) {
-    throw 'Current environment doesn\'t supoort Fetch method';
-  }
-}
 
 var FetchQL = function () {
   /**
@@ -32,6 +22,7 @@ var FetchQL = function () {
     this.requestObject = {
       method: 'POST',
       headers: {
+        'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
       credentials: 'same-origin'
@@ -66,11 +57,11 @@ var FetchQL = function () {
         variables: JSON.stringify(variables)
       };
       options.body = JSON.stringify(body);
-      return window.fetch(this._url, options).then(function (res) {
+      return fetch(this._url, options).then(function (res) {
         if (res.status >= 400) {
-          return new Promise(function (resolve, reject) {
-            return reject(res);
-          });
+          var error = new Error(res.statusText);
+          error.response = res;
+          throw error;
         } else {
           return res.json();
         }
@@ -116,7 +107,7 @@ var FetchQL = function () {
 
     /**
      * get information of enum type
-     * @param [String]EnumNameList - array of enums' name
+     * @param {String[]} EnumNameList - array of enums' name
      * @returns {Promise}
      */
 
@@ -153,17 +144,31 @@ var FetchQL = function () {
 
       var options = Object.assign({}, this.requestObject);
       options.body = JSON.stringify({ query: query });
-      return window.fetch(this._url, options).then(function (res) {
-        return res.json();
+      return fetch(this._url, options).then(function (res) {
+        if (res.status >= 400) {
+          var error = new Error(res.statusText);
+          error.response = res;
+          throw error;
+        } else {
+          return res.json();
+        }
       }).then(function (_ref3) {
         var data = _ref3.data;
         var errors = _ref3.errors;
         return new Promise(function (resolve, reject) {
+          // if data in response is 'null'
+          if (!data) {
+            return reject(errors);
+          }
+          // if all properties of data is 'null'
+          var allDataKeyEmpty = Object.keys(data).every(function (key) {
+            return !data[key];
+          });
+          if (allDataKeyEmpty) {
+            return reject(errors);
+          }
           // merge enums' data
           var passData = Object.assign(fullData, data);
-          if (errors && errors.length) {
-            reject({ data: passData, errors: errors });
-          }
           // cache new enums' data
           for (var key in data) {
             if (data.hasOwnProperty(key)) {
