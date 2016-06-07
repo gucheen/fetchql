@@ -8,6 +8,7 @@ FetchQL is an query client for GraphQL server works on both browser and Node(nee
   * wrap query methods
   * easily set server-side
   * get enum types by names (with cache)
+  * built-in interceptors
   * written in ES2015 and modules
   
 ## Documentation
@@ -16,6 +17,52 @@ FetchQL is an query client for GraphQL server works on both browser and Node(nee
     `var Query = new FetchQL({url: ''})`
     
     You may pass url in parameters or set it later.
+
+  * **interceptor**
+
+  `interceptors` is an optional parameter of class. It can be an Array or an Object.
+
+    ```javascript
+    {
+      url: '',
+      interceptors: [interceptor]
+      // or
+      // intercepotrs: interceptor
+    }
+
+    // interceptor
+    {
+      request: function (url, config) {
+          // Modify the url or config here
+          return [url, config];
+      },
+
+      requestError: function (error) {
+          // Called when an error occured during another 'request' interceptor call
+          return Promise.reject(error);
+      },
+
+      response: function (response) {
+          // Modify the reponse object
+          return response;
+      },
+
+      responseError: function (error) {
+          // Handle an fetch error
+          return Promise.reject(error);
+      }
+    }
+    ```
+
+    - FetchQL.addInterceptors(interceptor[]|interceptor) => function
+
+      Add more interceptors. Arguments is same with `interceptors` of class.
+
+      It will return an function to remove **added interceptors**.
+
+    - FetchQL.clearInterceptors() => void
+
+      Remove all interceptors.
     
   * **FetchQL.query()**
   

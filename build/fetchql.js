@@ -6,20 +6,148 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var FetchQL = function () {
+var FetchInterceptor = function () {
+  function FetchInterceptor() {
+    var _this = this;
+
+    _classCallCheck(this, FetchInterceptor);
+
+    this.interceptors = new Set();
+
+    this.fetch = function () {
+      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      return _this.interceptorWrapper.apply(_this, [fetch].concat(args));
+    };
+  }
+
+  /**
+   * add new interceptors
+   * @param {(Object|Object[])} interceptors
+   */
+
+
+  _createClass(FetchInterceptor, [{
+    key: 'addInterceptors',
+    value: function addInterceptors(interceptors) {
+      var _this2 = this;
+
+      if (Array.isArray(interceptors)) {
+        interceptors.map(function (interceptor) {
+          _this2.interceptors.add(interceptor);
+        });
+      } else if (interceptors instanceof Object) {
+        this.interceptors.add(interceptors);
+      }
+
+      this.updateInterceptors();
+
+      return function () {
+        return _this2.removeInterceptors(interceptors);
+      };
+    }
+  }, {
+    key: 'removeInterceptors',
+    value: function removeInterceptors(interceptors) {
+      var _this3 = this;
+
+      if (Array.isArray(interceptors)) {
+        interceptors.map(function (interceptor) {
+          _this3.interceptors.delete(interceptor);
+        });
+      } else if (interceptors instanceof Object) {
+        this.interceptors.delete(interceptors);
+      }
+
+      this.updateInterceptors();
+    }
+  }, {
+    key: 'updateInterceptors',
+    value: function updateInterceptors() {
+      this.reversedInterceptors = Array.from(this.interceptors).reduce(function (array, interceptor) {
+        return [interceptor].concat(array);
+      }, []);
+    }
+
+    /**
+     * remove all interceptors
+     */
+
+  }, {
+    key: 'clearInterceptors',
+    value: function clearInterceptors() {
+      this.interceptors.clear();
+
+      this.updateInterceptors();
+    }
+  }, {
+    key: 'interceptorWrapper',
+    value: function interceptorWrapper(fetch) {
+      for (var _len2 = arguments.length, args = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+        args[_key2 - 1] = arguments[_key2];
+      }
+
+      var promise = Promise.resolve(args);
+
+      this.reversedInterceptors.forEach(function (_ref) {
+        var request = _ref.request;
+        var requestError = _ref.requestError;
+
+        if (request || requestError) {
+          promise = promise.then(function (args) {
+            return request.apply(undefined, _toConsumableArray(args));
+          }, requestError);
+        }
+      });
+
+      promise = promise.then(function (args) {
+        return fetch.apply(undefined, _toConsumableArray(args));
+      });
+
+      this.reversedInterceptors.forEach(function (_ref2) {
+        var response = _ref2.response;
+        var responseError = _ref2.responseError;
+
+        if (response || responseError) {
+          promise = promise.then(response, responseError);
+        }
+      });
+
+      return promise;
+    }
+  }]);
+
+  return FetchInterceptor;
+}();
+
+var FetchQL = function (_FetchInterceptor) {
+  _inherits(FetchQL, _FetchInterceptor);
+
   /**
    * FetchQL Class
    * @param {String} url - the server address of GraphQL
+   * @param {Object|Object[]=} interceptors
    */
 
-  function FetchQL(_ref) {
-    var url = _ref.url;
+  function FetchQL(_ref3) {
+    var url = _ref3.url;
+    var interceptors = _ref3.interceptors;
 
     _classCallCheck(this, FetchQL);
 
-    this.requestObject = {
+    var _this4 = _possibleConstructorReturn(this, Object.getPrototypeOf(FetchQL).call(this));
+
+    _this4.requestObject = {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -28,14 +156,17 @@ var FetchQL = function () {
       credentials: 'same-origin'
     };
 
-    this._url = url;
+    _this4._url = url;
 
     // using for caching enums' type
-    this.EnumMap = {};
+    _this4.EnumMap = {};
+
+    _this4.addInterceptors(interceptors);
+    return _this4;
   }
 
   /**
-   *
+   * operate an query
    * @param {String} operationName
    * @param {String} query
    * @param {Object} variables
@@ -45,10 +176,10 @@ var FetchQL = function () {
 
   _createClass(FetchQL, [{
     key: 'query',
-    value: function query(_ref2) {
-      var operationName = _ref2.operationName;
-      var _query = _ref2.query;
-      var variables = _ref2.variables;
+    value: function query(_ref4) {
+      var operationName = _ref4.operationName;
+      var _query = _ref4.query;
+      var variables = _ref4.variables;
 
       var options = Object.assign({}, this.requestObject);
       var body = {
@@ -57,7 +188,8 @@ var FetchQL = function () {
         variables: JSON.stringify(variables)
       };
       options.body = JSON.stringify(body);
-      return fetch(this._url, options).then(function (res) {
+
+      return this.fetch(this._url, options).then(function (res) {
         if (res.status >= 400) {
           var error = new Error(res.statusText);
           error.response = res;
@@ -114,15 +246,15 @@ var FetchQL = function () {
   }, {
     key: 'getEnumTypes',
     value: function getEnumTypes(EnumNameList) {
-      var _this = this;
+      var _this5 = this;
 
       var fullData = {};
 
       // check cache status
       var unCachedEnumList = EnumNameList.filter(function (element) {
-        if (_this.EnumMap[element]) {
+        if (_this5.EnumMap[element]) {
           // enum has been cached
-          fullData[element] = _this.EnumMap[element];
+          fullData[element] = _this5.EnumMap[element];
           return false;
         }
         return true;
@@ -144,7 +276,7 @@ var FetchQL = function () {
 
       var options = Object.assign({}, this.requestObject);
       options.body = JSON.stringify({ query: query });
-      return fetch(this._url, options).then(function (res) {
+      return this.fetch(this._url, options).then(function (res) {
         if (res.status >= 400) {
           var error = new Error(res.statusText);
           error.response = res;
@@ -152,9 +284,9 @@ var FetchQL = function () {
         } else {
           return res.json();
         }
-      }).then(function (_ref3) {
-        var data = _ref3.data;
-        var errors = _ref3.errors;
+      }).then(function (_ref5) {
+        var data = _ref5.data;
+        var errors = _ref5.errors;
         return new Promise(function (resolve, reject) {
           // if data in response is 'null'
           if (!data) {
@@ -172,7 +304,7 @@ var FetchQL = function () {
           // cache new enums' data
           for (var key in data) {
             if (data.hasOwnProperty(key)) {
-              _this.EnumMap[key] = data[key];
+              _this5.EnumMap[key] = data[key];
             }
           }
           resolve({ data: passData, errors: errors });
@@ -182,6 +314,6 @@ var FetchQL = function () {
   }]);
 
   return FetchQL;
-}();
+}(FetchInterceptor);
 
 exports.default = FetchQL;
