@@ -54,15 +54,15 @@ FetchQL is an query client for GraphQL server works on both browser and Node(nee
     }
     ```
 
-    - FetchQL.addInterceptors(interceptor[]|interceptor) => function
-
-      Add more interceptors. Arguments is same with `interceptors` of class.
-
-      It will return an function to remove **added interceptors**.
-
-    - FetchQL.clearInterceptors() => void
-
-      Remove all interceptors.
+   - FetchQL.addInterceptors(interceptor[]|interceptor) => function
+   
+     Add more interceptors. Arguments is same with `interceptors` of class.
+   
+     It will return an function to remove **added interceptors**.
+   
+   - FetchQL.clearInterceptors() => void
+   
+     Remove all interceptors.
     
   * **FetchQL.query()**
   
