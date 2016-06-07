@@ -5,6 +5,8 @@ var expect = require('chai').expect;
 var fetch = require('node-fetch');
 var FetchQL = require('./lib/index.mjs');
 
+var app = require('graphql-intro');
+
 const testQuery = `
   query Query {
     user(username: "BlinkTunnel") {
