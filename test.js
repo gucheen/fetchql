@@ -16,7 +16,7 @@ const testQuery = `
   }
 `;
 
-const testUrl = 'http://127.0.0.1:3000/another';
+const testUrl = 'http://0.0.0.0:3000/another';
 const testQueryParams = {
   operationName: 'Query',
   query: testQuery,
@@ -125,7 +125,7 @@ describe('FetchQL', () => {
     });
   });
 
-  const newUrl = 'http://127.0.0.1:3000/graphql';
+  const newUrl = 'http://0.0.0.0:3000/graphql';
   describe(`#setUrl("${newUrl}")`, () => {
     it(`should set url to "${newUrl}"`, () => {
       testQL.setUrl(newUrl);
