@@ -1,4 +1,7 @@
 # FetchQL
+
+[![npm](https://img.shields.io/npm/v/fetchql.svg?maxAge=2592000)](https://www.npmjs.com/package/fetchql)
+
 GraphQL query client with Fetch
 
 FetchQL is an query client for GraphQL server works on both browser and Node(need fetch support, eg. node-fetch)
@@ -118,7 +121,9 @@ FetchQL is an query client for GraphQL server works on both browser and Node(nee
 
 ## Develop
 
-You may use `graphql-intro` as an develop server-side.
+`npm install`
+
+`./test/server.js` could be used as development server.
 
 ## LICENSE
 
