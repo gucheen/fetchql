@@ -1,6 +1,7 @@
 # FetchQL
 
 [![npm](https://img.shields.io/npm/v/fetchql.svg?maxAge=2592000)](https://www.npmjs.com/package/fetchql)
+[![Build Status](https://travis-ci.org/gucheen/FetchQL.svg?branch=master)](https://travis-ci.org/gucheen/FetchQL)
 
 GraphQL query client with Fetch
 
