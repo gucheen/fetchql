@@ -1,22 +1,20 @@
 /**
  * Created by gucheng on 5/18/16.
  */
+require("babel-register");
 var expect = require('chai').expect;
-var fetch = require('node-fetch');
-var FetchQL = require('./lib/index.mjs');
+global.fetch = require('node-fetch');
+var FetchQL = require('../lib/index').default;
 
-var app = require('graphql-intro');
+var app = require('./server');
 
 const testQuery = `
   query Query {
-    user(username: "BlinkTunnel") {
-      name
-      id
-    }
+    testString
   }
 `;
 
-const testUrl = 'http://localhost:3000/another';
+const testUrl = 'http://127.0.0.1:4321/graphql';
 const testQueryParams = {
   operationName: 'Query',
   query: testQuery,
@@ -57,25 +55,28 @@ describe('FetchQL', () => {
       expect(call).to.be.a('promise');
     });
 
-    it('should pass an object of response data in promise', () => {
+    it('should pass response data and "testString" should be "It works!"', () => {
       return call
-        .then(response => expect(response).to.be.a('object'))
+        .then(response => {
+          expect(response.data).to.be.a('object');
+          expect(response.data.testString).to.equal('It works!');
+        })
         .catch(error => expect(error).to.be.a('object'))
     });
   });
 
-  describe('#getEnumTypes(["UserType"])', () => {
-    let call = testQL.getEnumTypes(['UserType']);
+  describe('#getEnumTypes(["TestEnum"])', () => {
+    let call = testQL.getEnumTypes(['TestEnum']);
     it('should return a Promise', () => {
       expect(call).to.be.a('promise');
     });
 
-    it('should pass an Object cotains GraphQL enum type for "UserType" in promise', () => {
+    it('should pass an Object cotains GraphQL enum type for "TestEnum" in promise', () => {
       return call
         .then(response => {
           expect(response).to.be.a('object');
-          expect(response).to.have.property('UserType');
-          expect(response.UserType).to.have.all.keys('name', 'kinde', 'enumValues');
+          expect(response).to.have.property('TestEnum');
+          expect(response.UserType).to.have.all.keys('name', 'kind', 'enumValues');
         })
         .catch(error => {
           expect(error).to.be.a('object');
@@ -125,7 +126,7 @@ describe('FetchQL', () => {
     });
   });
 
-  const newUrl = 'http://localhost:3000/graphql';
+  const newUrl = 'http://127.0.0.1:4321/another';
   describe(`#setUrl("${newUrl}")`, () => {
     it(`should set url to "${newUrl}"`, () => {
       testQL.setUrl(newUrl);
