@@ -5,7 +5,7 @@
 
 GraphQL query client with Fetch
 
-FetchQL is an query client for GraphQL server works on both browser and Node(need fetch support, eg. node-fetch)
+FetchQL is a query client for GraphQL server works on both browser and Node(need fetch support, eg. node-fetch)
 
 ## Pros:
   * lightweight
@@ -20,11 +20,11 @@ FetchQL is an query client for GraphQL server works on both browser and Node(nee
   
     `var Query = new FetchQL({url: ''})`
     
-    You may pass url in parameters or set it later.
+    You may pass url in parameters or configure it later.
 
   * **interceptor**
 
-  `interceptors` is an optional parameter of class. It can be an Array or an Object.
+  `interceptors` is an optional parameter of the class. It can be an Array or an Object.
 
     ```javascript
     {
@@ -60,9 +60,9 @@ FetchQL is an query client for GraphQL server works on both browser and Node(nee
 
    - FetchQL.addInterceptors(interceptor[]|interceptor) => function
    
-     Add more interceptors. Arguments is same with `interceptors` of class.
+     Add more interceptors. Arguments are same with `interceptors` of class.
    
-     It will return an function to remove **added interceptors**.
+     It will return a function to remove **added interceptors**.
    
    - FetchQL.clearInterceptors() => void
    
@@ -76,13 +76,13 @@ FetchQL is an query client for GraphQL server works on both browser and Node(nee
     
     `query` and `variables` are followed the specification fo GraphQL.
     
-    If any errors exists(from query response), will reject the promise.
+    If any errors exist(from query response), will reject the promise.
     
   * **FetchQL.getEnumTypes()**
   
     `Query.getEnumTypes(['array', 'of', 'enum', 'name'])` => Promise
     
-    Will get enums' information from server. Then you can get a following Object in promise:
+    Will get enums' information from the server. Then you can get a following Object in promise:
     
     ```js
     {
@@ -101,7 +101,7 @@ FetchQL is an query client for GraphQL server works on both browser and Node(nee
     }
     ```
     
-    This method currently support caching. All enum will be cached after first querying.
+    This method currently supports caching. All enum will be cached after first querying.
     
   * **FetchQL.getUrl()**
   
@@ -124,7 +124,7 @@ FetchQL is an query client for GraphQL server works on both browser and Node(nee
 
 `npm install`
 
-`./test/server.js` could be used as development server.
+`./test/server.js` could be used as a development server.
 
 ## LICENSE
 
