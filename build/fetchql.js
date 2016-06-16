@@ -44,7 +44,7 @@ var FetchInterceptor = function () {
 
       if (Array.isArray(interceptors)) {
         interceptors.map(function (interceptor) {
-          _this2.interceptors.add(interceptor);
+          return _this2.interceptors.add(interceptor);
         });
       } else if (interceptors instanceof Object) {
         this.interceptors.add(interceptors);
@@ -63,7 +63,7 @@ var FetchInterceptor = function () {
 
       if (Array.isArray(interceptors)) {
         interceptors.map(function (interceptor) {
-          _this3.interceptors.delete(interceptor);
+          return _this3.interceptors.delete(interceptor);
         });
       } else if (interceptors instanceof Object) {
         this.interceptors.delete(interceptors);
@@ -136,7 +136,7 @@ var FetchQL = function (_FetchInterceptor) {
   /**
    * FetchQL Class
    * @param {String} url - the server address of GraphQL
-   * @param {Object|Object[]=} interceptors
+   * @param {(Object|Object[])=} interceptors
    */
 
   function FetchQL(_ref3) {
@@ -150,7 +150,7 @@ var FetchQL = function (_FetchInterceptor) {
     _this4.requestObject = {
       method: 'POST',
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'Content-Type': 'application/json'
       },
       credentials: 'same-origin'
@@ -190,27 +190,23 @@ var FetchQL = function (_FetchInterceptor) {
       options.body = JSON.stringify(body);
 
       return this.fetch(this._url, options).then(function (res) {
-        if (res.status >= 400) {
-          var error = new Error(res.statusText);
-          error.response = res;
-          throw error;
-        } else {
-          return res.json();
-        }
-      }).then(function (response) {
+        return res.json();
+      }).then(function (_ref5) {
+        var data = _ref5.data;
+        var errors = _ref5.errors;
         return new Promise(function (resolve, reject) {
           // if data in response is 'null'
-          if (!response.data) {
-            return reject(response.errors);
+          if (!data) {
+            return reject(errors || [{}]);
           }
           // if all properties of data is 'null'
-          var allDataKeyEmpty = Object.keys(response.data).every(function (key) {
-            return !response.data[key];
+          var allDataKeyEmpty = Object.keys(data).every(function (key) {
+            return !data[key];
           });
           if (allDataKeyEmpty) {
-            return reject(response.errors);
+            return reject(errors);
           }
-          resolve(response);
+          return resolve({ data: data, errors: errors });
         });
       });
     }
@@ -277,26 +273,20 @@ var FetchQL = function (_FetchInterceptor) {
       var options = Object.assign({}, this.requestObject);
       options.body = JSON.stringify({ query: query });
       return this.fetch(this._url, options).then(function (res) {
-        if (res.status >= 400) {
-          var error = new Error(res.statusText);
-          error.response = res;
-          throw error;
-        } else {
-          return res.json();
-        }
-      }).then(function (_ref5) {
-        var data = _ref5.data;
-        var errors = _ref5.errors;
+        return res.json();
+      }).then(function (_ref6) {
+        var data = _ref6.data;
+        var errors = _ref6.errors;
         return new Promise(function (resolve, reject) {
-          // if data in response is 'null'
+          // if data in response is 'null' and have any errors
           if (!data) {
-            return reject(errors);
+            return reject(errors || [{}]);
           }
           // if all properties of data is 'null'
           var allDataKeyEmpty = Object.keys(data).every(function (key) {
             return !data[key];
           });
-          if (allDataKeyEmpty) {
+          if (allDataKeyEmpty && errors && errors.length) {
             return reject(errors);
           }
           // merge enums' data
