@@ -190,7 +190,17 @@ var FetchQL = function (_FetchInterceptor) {
       options.body = JSON.stringify(body);
 
       return this.fetch(this._url, options).then(function (res) {
-        return res.json();
+        if (res.ok) {
+          return res.json();
+        } else {
+          // return an custom error stack if request error
+          return {
+            errors: [{
+              message: res.statusText,
+              stack: res
+            }]
+          };
+        }
       }).then(function (_ref5) {
         var data = _ref5.data;
         var errors = _ref5.errors;
@@ -273,7 +283,17 @@ var FetchQL = function (_FetchInterceptor) {
       var options = Object.assign({}, this.requestObject);
       options.body = JSON.stringify({ query: query });
       return this.fetch(this._url, options).then(function (res) {
-        return res.json();
+        if (res.ok) {
+          return res.json();
+        } else {
+          // return an custom error stack if request error
+          return {
+            errors: [{
+              message: res.statusText,
+              stack: res
+            }]
+          };
+        }
       }).then(function (_ref6) {
         var data = _ref6.data;
         var errors = _ref6.errors;
