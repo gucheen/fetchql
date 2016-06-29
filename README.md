@@ -70,7 +70,7 @@ FetchQL is a query client for GraphQL server works on both browser and Node(need
     
   * **FetchQL.query()**
   
-    `Query.query({operationName: '', query: '', variables: '{}'})` => Promise
+    `Query.query({operationName: '', query: '', variables: {}})` => Promise
     
     Method for query data from the server. `operationName` **must** be provided.
     
