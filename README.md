@@ -18,9 +18,15 @@ FetchQL is a query client for GraphQL server works on both browser and Node(need
 ## Documentation
   * **Class FetchQL**
   
-    `var Query = new FetchQL({url: ''})`
+    `var Query = new FetchQL({url: ''}, intercepotrs: [], headers: {})`
     
-    You may pass url in parameters or configure it later.
+      ```javascript
+      {
+        url: '', // GraphQL server address
+        intercepotrs: [],
+        headers: {} // customized headers of all requests
+      }
+      ```
 
   * **interceptor**
 
@@ -118,7 +124,7 @@ FetchQL is a query client for GraphQL server works on both browser and Node(need
 ## .js or .mjs
 
 * Use `index.js` in any ES2015 environment.
-* Use `index.mjs` for Node (version >= 6.0) without babel, because Node does support ES2015 modules natively.
+* Use `index.mjs` for Node (version >= 6.0) without babel, because Node doesn't support ES2015 modules natively.
 
 ## Develop
 

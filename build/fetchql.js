@@ -137,11 +137,13 @@ var FetchQL = function (_FetchInterceptor) {
    * FetchQL Class
    * @param {String} url - the server address of GraphQL
    * @param {(Object|Object[])=} interceptors
+   * @param {{}=} headers - request headers
    */
 
   function FetchQL(_ref3) {
     var url = _ref3.url;
     var interceptors = _ref3.interceptors;
+    var headers = _ref3.headers;
 
     _classCallCheck(this, FetchQL);
 
@@ -149,14 +151,14 @@ var FetchQL = function (_FetchInterceptor) {
 
     _this4.requestObject = {
       method: 'POST',
-      headers: {
+      headers: Object.assign({}, {
         Accept: 'application/json',
         'Content-Type': 'application/json'
-      },
+      }, headers),
       credentials: 'same-origin'
     };
 
-    _this4._url = url;
+    _this4.url = url;
 
     // using for caching enums' type
     _this4.EnumMap = {};
@@ -189,7 +191,7 @@ var FetchQL = function (_FetchInterceptor) {
       };
       options.body = JSON.stringify(body);
 
-      return this.fetch(this._url, options).then(function (res) {
+      return this.fetch(this.url, options).then(function (res) {
         if (res.ok) {
           return res.json();
         } else {
@@ -229,7 +231,7 @@ var FetchQL = function (_FetchInterceptor) {
   }, {
     key: 'getUrl',
     value: function getUrl() {
-      return this._url;
+      return this.url;
     }
 
     /**
@@ -240,7 +242,7 @@ var FetchQL = function (_FetchInterceptor) {
   }, {
     key: 'setUrl',
     value: function setUrl(url) {
-      this._url = url;
+      this.url = url;
     }
 
     /**
@@ -282,7 +284,7 @@ var FetchQL = function (_FetchInterceptor) {
 
       var options = Object.assign({}, this.requestObject);
       options.body = JSON.stringify({ query: query });
-      return this.fetch(this._url, options).then(function (res) {
+      return this.fetch(this.url, options).then(function (res) {
         if (res.ok) {
           return res.json();
         } else {
