@@ -22,7 +22,10 @@ const testQueryParams = {
 };
 
 var testQL = new FetchQL({
-  url: testUrl
+  url: testUrl,
+  headers: {
+    'test-header': 'test-header'
+  }
 });
 
 describe('FetchQL', () => {
@@ -84,24 +87,38 @@ describe('FetchQL', () => {
     })
   });
 
+  describe('Customized headers', () => {
+    it('should add customized headers to request', () => {
+      return testQL.query({
+        operationName: 'Query',
+        query: `
+        query Query {
+          headerCheck
+        }`
+      })
+        .then(({ data }) => {
+          expect(data.headerCheck).to.be.true;
+        });
+    });
+  });
+
   let requestIntercepted = false;
   let responseIntercepted = false;
   var removeInterceptors;
 
   describe('Interceptor', () => {
     describe('#addInterceptors()', () => {
-      it('should return an function', () => {
-        removeInterceptors = testQL.addInterceptors({
-          request: function(...args) {
-            requestIntercepted = true;
-            return args;
-          },
-          response: function(response) {
-            responseIntercepted = true;
-            return response;
-          }
-        });
-
+      removeInterceptors = testQL.addInterceptors({
+        request: function(url, config) {
+          requestIntercepted = true;
+          return [url, config];
+        },
+        response: function(response) {
+          responseIntercepted = true;
+          return response;
+        }
+      });
+      it('should return a function', () => {
         expect(removeInterceptors).to.be.a('function');
       });
     });

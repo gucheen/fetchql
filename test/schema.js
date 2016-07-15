@@ -5,6 +5,7 @@ enum TestEnum {
 }
 type Query {
   testString: String
+  headerCheck: Boolean
 }
 schema {
   query: Query
