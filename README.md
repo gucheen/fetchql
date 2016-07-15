@@ -30,7 +30,7 @@ FetchQL is a query client for GraphQL server works on both browser and Node(need
 
   * **interceptor**
 
-  `interceptors` is an optional parameter of the class. It can be an Array or an Object.
+    `interceptors` is an optional parameter of the class. It can be an Array or an Object.
 
     ```javascript
     {
