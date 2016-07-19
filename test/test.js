@@ -21,10 +21,22 @@ const testQueryParams = {
   variables: {}
 };
 
+let startTrack = false;
+let endTrack = false;
+let queueLength;
+
 var testQL = new FetchQL({
   url: testUrl,
   headers: {
     'test-header': 'test-header'
+  },
+  onStart(requestQueueLength) {
+    startTrack = true;
+    queueLength = requestQueueLength;
+  },
+  onEnd(requestQueueLength) {
+    endTrack = true;
+    queueLength = requestQueueLength;
   }
 });
 
@@ -139,6 +151,25 @@ describe('FetchQL', () => {
         removeInterceptors();
 
         expect(testQL.interceptors.size).to.equal(0);
+      });
+    });
+  });
+
+  describe('Callbacks', () => {
+    describe('#onStart()', () => {
+      it('should call onStart when new request queue created', () => {
+        expect(startTrack).to.be.true;
+      });
+      it('should have a paramemter of the request queue\'s length', () => {
+        expect(queueLength).to.be.a('number');
+      });
+    });
+    describe('#onEnd()', () => {
+      it('should call onEnd when all reqests finished', () => {
+        expect(endTrack).to.be.true;
+      });
+      it('should have a paramemter of the request queue\'s length', () => {
+        expect(queueLength).to.be.a('number');
       });
     });
   });
