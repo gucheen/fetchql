@@ -13,18 +13,21 @@ FetchQL is a query client for GraphQL server works on both browser and Node(need
   * easily set server-side
   * get enum types by names (with cache)
   * built-in interceptors
+  * request state callbacks
   * written in ES2015 and modules
   
 ## Documentation
   * **Class FetchQL**
   
-    `var Query = new FetchQL({url: ''}, intercepotrs: [], headers: {})`
+    `var Query = new FetchQL({ url, intercepotrs, headers, onStart, onEnd })`
     
       ```javascript
       {
         url: '', // GraphQL server address
         intercepotrs: [],
-        headers: {} // customized headers of all requests
+        headers: {}, // customized headers of all requests,
+        onStart: function () {}, // callback of a new request queue
+        onEnd: function () {} // callback of a request queue finished
       }
       ```
 
@@ -118,8 +121,20 @@ FetchQL is a query client for GraphQL server works on both browser and Node(need
     `Query.setUrl('')`
     
     Set a new server address.
-  
+
+  * **callback - onStart(requestQueueLength), onEnd(requestQueueLength)**
     
+    When FetchQL make a new request, if it is belonged to a new queue(means there are no requests before), will call `onStart()`.
+
+    By this you can know that now there are some network requests within FetchQL.
+
+    When FetchQL finish a request and find that there are no requests any more, will call `onEnd()`.
+
+    By this you can know that all requests within FetchQL have been finished.
+
+    These two callbacks are useful when you want to watch the state of FetchQL's network requesting.
+    
+    For example, you may have an indicator(loading spinner, loading bar) in your web application, with this feature you can easily manage the indicator's state(display or not);     
   
 ## .js or .mjs
 

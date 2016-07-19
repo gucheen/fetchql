@@ -135,15 +135,20 @@ var FetchQL = function (_FetchInterceptor) {
 
   /**
    * FetchQL Class
+   * @class
    * @param {String} url - the server address of GraphQL
    * @param {(Object|Object[])=} interceptors
    * @param {{}=} headers - request headers
+   * @param {FetchQL~requestQueueChanged=} onStart - callback function of a new request queue
+   * @param {FetchQL~requestQueueChanged=} onEnd - callback function of request queue finished
    */
 
   function FetchQL(_ref3) {
     var url = _ref3.url;
     var interceptors = _ref3.interceptors;
     var headers = _ref3.headers;
+    var onStart = _ref3.onStart;
+    var onEnd = _ref3.onEnd;
 
     _classCallCheck(this, FetchQL);
 
@@ -160,8 +165,16 @@ var FetchQL = function (_FetchInterceptor) {
 
     _this4.url = url;
 
+    // marker for request queue
+    _this4.requestQueueLength = 0;
+
     // using for caching enums' type
     _this4.EnumMap = {};
+
+    _this4.callbacks = {
+      onStart: onStart,
+      onEnd: onEnd
+    };
 
     _this4.addInterceptors(interceptors);
     return _this4;
@@ -179,6 +192,8 @@ var FetchQL = function (_FetchInterceptor) {
   _createClass(FetchQL, [{
     key: 'query',
     value: function query(_ref4) {
+      var _this5 = this;
+
       var operationName = _ref4.operationName;
       var _query = _ref4.query;
       var variables = _ref4.variables;
@@ -190,6 +205,8 @@ var FetchQL = function (_FetchInterceptor) {
         variables: JSON.stringify(variables)
       };
       options.body = JSON.stringify(body);
+
+      this.onStart();
 
       return this.fetch(this.url, options).then(function (res) {
         if (res.ok) {
@@ -207,6 +224,8 @@ var FetchQL = function (_FetchInterceptor) {
         var data = _ref5.data;
         var errors = _ref5.errors;
         return new Promise(function (resolve, reject) {
+          _this5.onEnd();
+
           // if data in response is 'null'
           if (!data) {
             return reject(errors || [{}]);
@@ -254,15 +273,15 @@ var FetchQL = function (_FetchInterceptor) {
   }, {
     key: 'getEnumTypes',
     value: function getEnumTypes(EnumNameList) {
-      var _this5 = this;
+      var _this6 = this;
 
       var fullData = {};
 
       // check cache status
       var unCachedEnumList = EnumNameList.filter(function (element) {
-        if (_this5.EnumMap[element]) {
+        if (_this6.EnumMap[element]) {
           // enum has been cached
-          fullData[element] = _this5.EnumMap[element];
+          fullData[element] = _this6.EnumMap[element];
           return false;
         }
         return true;
@@ -284,6 +303,9 @@ var FetchQL = function (_FetchInterceptor) {
 
       var options = Object.assign({}, this.requestObject);
       options.body = JSON.stringify({ query: query });
+
+      this.onStart();
+
       return this.fetch(this.url, options).then(function (res) {
         if (res.ok) {
           return res.json();
@@ -300,6 +322,8 @@ var FetchQL = function (_FetchInterceptor) {
         var data = _ref6.data;
         var errors = _ref6.errors;
         return new Promise(function (resolve, reject) {
+          _this6.onEnd();
+
           // if data in response is 'null' and have any errors
           if (!data) {
             return reject(errors || [{}]);
@@ -316,13 +340,50 @@ var FetchQL = function (_FetchInterceptor) {
           // cache new enums' data
           for (var key in data) {
             if (data.hasOwnProperty(key)) {
-              _this5.EnumMap[key] = data[key];
+              _this6.EnumMap[key] = data[key];
             }
           }
           resolve({ data: passData, errors: errors });
         });
       });
     }
+
+    /**
+     * calling on a request starting
+     * if the request belong to a new queue, call the 'onStart' method
+     */
+
+  }, {
+    key: 'onStart',
+    value: function onStart() {
+      this.requestQueueLength++;
+      if (this.requestQueueLength > 1 || !this.callbacks.onStart) {
+        return;
+      }
+      this.callbacks.onStart(this.requestQueueLength);
+    }
+
+    /**
+     * calling on a request ending
+     * if current queue finished, calling the 'onEnd' method
+     */
+
+  }, {
+    key: 'onEnd',
+    value: function onEnd() {
+      this.requestQueueLength--;
+      if (this.requestQueueLength || !this.callbacks.onEnd) {
+        return;
+      }
+      this.callbacks.onEnd(this.requestQueueLength);
+    }
+
+    /**
+     * Callback of requests queue changes.(e.g. new queue or queue finished)
+     * @callback FetchQL~requestQueueChanged
+     * @param {number} queueLength - length of current request queue
+     */
+
   }]);
 
   return FetchQL;
