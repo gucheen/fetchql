@@ -150,7 +150,7 @@ describe('FetchQL', () => {
       it('should remove the added interceptors', () => {
         removeInterceptors();
 
-        expect(testQL.interceptors.size).to.equal(0);
+        expect(testQL.interceptors.length).to.equal(0);
       });
     });
   });
