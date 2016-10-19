@@ -1,7 +1,7 @@
 /**
  * Created by gucheng on 5/18/16.
  */
-require("babel-register");
+require('babel-register');
 var expect = require('chai').expect;
 global.fetch = require('node-fetch');
 var FetchQL = require('../lib/index').default;

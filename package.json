@@ -4,9 +4,10 @@
   "description": "GraphQL query client with Fetch",
   "main": "index.js",
   "scripts": {
-    "test": "node_modules/.bin/mocha ./test/test",
+    "test": "istanbul cover _mocha -- ./test/test",
     "compile": "node_modules/.bin/babel lib/array.from.polyfill.js lib/index.js --out-file build/fetchql.js --no-comments",
-    "start": "node_modules/.bin/babel -w lib/array.from.polyfill.js lib/index.js --out-file build/fetchql.js"
+    "start": "node_modules/.bin/babel -w lib/array.from.polyfill.js lib/index.js --out-file build/fetchql.js",
+    "coverage": "cat ./coverage/lcov.info | coveralls"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,7 @@
     "babel-preset-stage-0": "^6.5.0",
     "babel-register": "^6.9.0",
     "chai": "^3.5.0",
+    "coveralls": "^2.11.14",
     "eslint": "^2.11.1",
     "eslint-config-airbnb": "^9.0.1",
     "eslint-plugin-import": "^1.8.1",
@@ -33,6 +35,7 @@
     "eslint-plugin-react": "^5.1.1",
     "express": "^4.13.4",
     "graphql": "^0.6.0",
+    "istanbul": "^1.1.0-alpha.1",
     "mocha": "^2.4.5",
     "node-fetch": "^1.5.2"
   },
