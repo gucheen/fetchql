@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 1.6.2
+
+  - fix: spelling of property name in typescript declaration file.
+  - add: code coverage reports
+
 ## 1.6.1
 
   - fix: missing update of production file
