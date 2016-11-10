@@ -7,7 +7,7 @@ interface FetchQLInterceptor {
 
 interface FetchQLOptions {
   url: string;
-  intercepotrs?: FetchQLInterceptor | FetchQLInterceptor[];
+  interceptors?: FetchQLInterceptor | FetchQLInterceptor[];
   headers?: Object
 }
 
