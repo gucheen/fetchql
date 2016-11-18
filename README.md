@@ -20,12 +20,12 @@ FetchQL is a query client for GraphQL server works on both browser and Node(need
 ## Documentation
   * **Class FetchQL**
   
-    `var Query = new FetchQL({ url, intercepotrs, headers, onStart, onEnd })`
+    `var Query = new FetchQL({ url, interceptors, headers, onStart, onEnd })`
     
       ```javascript
       {
         url: '', // GraphQL server address
-        intercepotrs: [],
+        interceptors: [],
         headers: {}, // customized headers of all requests,
         onStart: function (requestQueueLength) {}, // callback of a new request queue
         onEnd: function (requestQueueLength) {} // callback of a request queue finished
@@ -41,7 +41,7 @@ FetchQL is a query client for GraphQL server works on both browser and Node(need
       url: '',
       interceptors: [interceptor]
       // or
-      // intercepotrs: interceptor
+      // interceptors: interceptor
     }
 
     // interceptor
