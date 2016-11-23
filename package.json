@@ -7,7 +7,8 @@
     "test": "istanbul cover _mocha -- ./test/test",
     "compile": "node_modules/.bin/babel lib/array.from.polyfill.js lib/index.js --out-file build/fetchql.js --no-comments",
     "start": "node_modules/.bin/babel -w lib/array.from.polyfill.js lib/index.js --out-file build/fetchql.js",
-    "coverage": "cat ./coverage/lcov.info | coveralls"
+    "coverage": "cat ./coverage/lcov.info | coveralls",
+    "docs": "jsdoc lib/index.js ./README.md -d ./docs/"
   },
   "repository": {
     "type": "git",
