@@ -2,11 +2,11 @@
  * Created by gucheng on 5/18/16.
  */
 require('babel-register');
-var expect = require('chai').expect;
+const expect = require('chai').expect;
 global.fetch = require('node-fetch');
-var FetchQL = require('../lib/index').default;
+const FetchQL = require('../lib/index').default;
 
-var app = require('./server');
+require('./server');
 
 const testQuery = `
   query Query {
@@ -18,17 +18,17 @@ const testUrl = 'http://127.0.0.1:4321/graphql';
 const testQueryParams = {
   operationName: 'Query',
   query: testQuery,
-  variables: {}
+  variables: {},
 };
 
 let startTrack = false;
 let endTrack = false;
 let queueLength;
 
-var testQL = new FetchQL({
+const testQL = new FetchQL({
   url: testUrl,
   headers: {
-    'test-header': 'test-header'
+    'test-header': 'test-header',
   },
   onStart(requestQueueLength) {
     startTrack = true;
@@ -37,7 +37,7 @@ var testQL = new FetchQL({
   onEnd(requestQueueLength) {
     endTrack = true;
     queueLength = requestQueueLength;
-  }
+  },
 });
 
 describe('FetchQL', () => {
@@ -57,7 +57,7 @@ describe('FetchQL', () => {
   });
 
   describe('#getUrl()', () => {
-    let currentUrl = testQL.getUrl();
+    const currentUrl = testQL.getUrl();
     it(`should return url "${testUrl}"`, () => {
       expect(currentUrl).to.be.a('string');
       expect(currentUrl).to.eql(testUrl);
@@ -65,7 +65,7 @@ describe('FetchQL', () => {
   });
 
   describe('#query()', () => {
-    let call = testQL.query(testQueryParams);
+    const call = testQL.query(testQueryParams);
     it('should return a Promise', () => {
       expect(call).to.be.a('promise');
     });
@@ -81,7 +81,7 @@ describe('FetchQL', () => {
   });
 
   describe('#getEnumTypes(["TestEnum"])', () => {
-    let call = testQL.getEnumTypes(['TestEnum']);
+    const call = testQL.getEnumTypes(['TestEnum']);
     it('should return a Promise', () => {
       expect(call).to.be.a('promise');
     });
@@ -95,8 +95,8 @@ describe('FetchQL', () => {
         })
         .catch(error => {
           expect(error).to.be.a('object');
-        })
-    })
+        });
+    });
   });
 
   describe('Customized headers', () => {
@@ -106,7 +106,7 @@ describe('FetchQL', () => {
         query: `
         query Query {
           headerCheck
-        }`
+        }`,
       })
         .then(({ data }) => {
           expect(data.headerCheck).to.be.true;
@@ -116,7 +116,7 @@ describe('FetchQL', () => {
 
   let requestIntercepted = false;
   let responseIntercepted = false;
-  var removeInterceptors;
+  let removeInterceptors;
 
   describe('Interceptor', () => {
     describe('#addInterceptors()', () => {
@@ -128,7 +128,7 @@ describe('FetchQL', () => {
         response: function(response) {
           responseIntercepted = true;
           return response;
-        }
+        },
       });
       it('should return a function', () => {
         expect(removeInterceptors).to.be.a('function');
@@ -137,7 +137,7 @@ describe('FetchQL', () => {
 
     describe('#interceptors', () => {
       it('should intercept fetch calls', () => {
-        let call = testQL.query(testQueryParams);
+        const call = testQL.query(testQueryParams);
 
         return call.then(() => {
           expect(requestIntercepted).to.be.true;
@@ -151,6 +151,65 @@ describe('FetchQL', () => {
         removeInterceptors();
 
         expect(testQL.interceptors.length).to.equal(0);
+      });
+    });
+  });
+
+  describe('OmitEmptyVariables', () => {
+    describe('global setting in init pramaters', () => {
+      const omitQLTest = new FetchQL({
+        url: testUrl,
+        omitEmptyVariables: true,
+        interceptors: [
+          {
+            request(url, config) {
+              expect(config).to.not.has('emptyString');
+              expect(config).to.not.has('nullProp');
+              return [url, config];
+            },
+          },
+        ],
+      });
+      it('should remove null or empty string in variables of query struct', () => {
+        omitQLTest.query({
+          operationName: 'Query',
+          query: testQuery,
+          variables: {
+            emptyString: '',
+            nullProp: null,
+          },
+        })
+          .then(() => {})
+          .catch(() => {});
+      });
+    });
+    describe('options of query({opts})', () => {
+      const omitQLTest = new FetchQL({
+        url: testUrl,
+        interceptors: [
+          {
+            request(url, config) {
+              expect(config).to.not.has('emptyString');
+              expect(config).to.not.has('nullProp');
+              return [url, config];
+            },
+          },
+        ],
+      });
+      it('should remove null or empty string in variables of query struct', () => {
+        omitQLTest.query({
+          operationName: 'Query',
+          query: testQuery,
+          variables: {
+            emptyString: '',
+            nullProp: null,
+          },
+          opts: {
+            omitEmptyVariables: true,
+          },
+        })
+          .then(() => {})
+          .catch(() => {});
       });
     });
   });

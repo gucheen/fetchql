@@ -20,7 +20,7 @@ FetchQL is a query client for GraphQL server works on both browser and Node(need
 ## Documentation
   * **Class FetchQL**
   
-    `var Query = new FetchQL({ url, interceptors, headers, onStart, onEnd })`
+    `var Query = new FetchQL({ url, interceptors, headers, onStart, onEnd, omitEmptyVariables })`
     
       ```javascript
       {
@@ -29,6 +29,7 @@ FetchQL is a query client for GraphQL server works on both browser and Node(need
         headers: {}, // customized headers of all requests,
         onStart: function (requestQueueLength) {}, // callback of a new request queue
         onEnd: function (requestQueueLength) {} // callback of a request queue finished
+        omitEmptyVariables: false, // remove null props(null or '') from the variables
       }
       ```
 
@@ -80,13 +81,17 @@ FetchQL is a query client for GraphQL server works on both browser and Node(need
     
   * **FetchQL.query()**
   
-    `Query.query({operationName: '', query: '', variables: {}})` => Promise
+    `Query.query({operationName: '', query: '', variables: {}, opts: {}})` => Promise
     
     Method for query data from the server. `operationName` **must** be provided.
     
     `query` and `variables` are followed the specification fo GraphQL.
     
     If any errors exist(from query response), will reject the promise.
+
+    * opts - additional options(will not be passed to server)
+
+      - opts.omitEmptyVariables - similar to omitEmptyVariables global settings, remove null props(null or '') from the variables
     
   * **FetchQL.getEnumTypes()**
   
@@ -135,7 +140,17 @@ FetchQL is a query client for GraphQL server works on both browser and Node(need
 
     These two callbacks are useful when you want to watch the state of FetchQL's network requesting.
     
-    For example, you may have an indicator(loading spinner, loading bar) in your web application, with this feature you can easily manage the indicator's state(display or not);     
+    For example, you may have an indicator(loading spinner, loading bar) in your web application, with this feature you can easily manage the indicator's state(display or not);
+
+  * **omitEmptyVariables** - Boolean(default to false) remove null props(null or '') from the variables in query
+
+    Sometimes `null` or `''` could be different meanings in backend logic.
+    
+    And if you just want the backend to **ignore these variable**, use this option to remove them.
+
+    ```
+    { emptyString: '', nullProp: null } => {} // remove them
+    ```
   
 ## .js or .mjs
 
