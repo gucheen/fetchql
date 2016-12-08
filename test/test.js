@@ -102,6 +102,18 @@ describe('FetchQL', () => {
           expect(error).to.be.a('error');
         });
     });
+
+    it('should get enum from cache', () => {
+      return testQL.getEnumTypes(['TestEnum'])
+        .then(response => {
+          expect(response).to.be.a('object');
+          expect(response.data).to.have.property('TestEnum');
+          expect(response.data.TextEnum).to.have.all.keys('description', 'kind', 'enumValues');
+        })
+        .catch(error => {
+          expect(error).to.be.a('error');
+        });
+    });
   });
 
   describe('Customized headers', () => {
@@ -190,6 +202,7 @@ describe('FetchQL', () => {
           variables: {
             emptyString: '',
             nullProp: null,
+            keepProp: 'keep',
           },
         })
           .then(() => {
@@ -206,6 +219,7 @@ describe('FetchQL', () => {
             request(url, config) {
               expect(config).to.not.has('emptyString');
               expect(config).to.not.has('nullProp');
+              expect(config).to.not.has('keepProp');
               return [url, config];
             },
           },
