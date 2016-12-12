@@ -4,7 +4,7 @@
 require('babel-register');
 const expect = require('chai').expect;
 global.fetch = require('node-fetch');
-const FetchQL = require('../lib/index').default;
+const FetchQL = require('../src/index').default;
 
 require('./server');
 
@@ -30,6 +30,11 @@ const testQL = new FetchQL({
   headers: {
     'test-header': 'test-header',
   },
+  interceptors: [{
+    request(url, config) {
+      return [url, config];
+    },
+  }],
   onStart(requestQueueLength) {
     startTrack = true;
     queueLength = requestQueueLength;
@@ -76,7 +81,7 @@ describe('FetchQL', () => {
           expect(response.data).to.be.a('object');
           expect(response.data.testString).to.equal('It works!');
         })
-        .catch(error => expect(error).to.be.a('object'))
+        .catch(error => expect(error).to.be.a('error'));
     });
   });
 
@@ -90,11 +95,23 @@ describe('FetchQL', () => {
       return call
         .then(response => {
           expect(response).to.be.a('object');
-          expect(response).to.have.property('TestEnum');
-          expect(response.UserType).to.have.all.keys('name', 'kind', 'enumValues');
+          expect(response.data).to.have.property('TestEnum');
+          expect(response.data.TextEnum).to.have.all.keys('description', 'kind', 'enumValues');
         })
         .catch(error => {
-          expect(error).to.be.a('object');
+          expect(error).to.be.a('error');
+        });
+    });
+
+    it('should get enum from cache', () => {
+      return testQL.getEnumTypes(['TestEnum'])
+        .then(response => {
+          expect(response).to.be.a('object');
+          expect(response.data).to.have.property('TestEnum');
+          expect(response.data.TextEnum).to.have.all.keys('description', 'kind', 'enumValues');
+        })
+        .catch(error => {
+          expect(error).to.be.a('error');
         });
     });
   });
@@ -108,7 +125,7 @@ describe('FetchQL', () => {
           headerCheck
         }`,
       })
-        .then(({ data }) => {
+        .then(({data}) => {
           expect(data.headerCheck).to.be.true;
         });
     });
@@ -121,11 +138,11 @@ describe('FetchQL', () => {
   describe('Interceptor', () => {
     describe('#addInterceptors()', () => {
       removeInterceptors = testQL.addInterceptors({
-        request: function(url, config) {
+        request: function (url, config) {
           requestIntercepted = true;
           return [url, config];
         },
-        response: function(response) {
+        response: function (response) {
           responseIntercepted = true;
           return response;
         },
@@ -149,6 +166,14 @@ describe('FetchQL', () => {
     describe('#removeInterceptors', () => {
       it('should remove the added interceptors', () => {
         removeInterceptors();
+
+        expect(testQL.interceptors.length).to.equal(1);
+      });
+    });
+
+    describe('#clearInterceptors', () => {
+      it('should remove the added interceptors', () => {
+        testQL.clearInterceptors();
 
         expect(testQL.interceptors.length).to.equal(0);
       });
@@ -177,10 +202,13 @@ describe('FetchQL', () => {
           variables: {
             emptyString: '',
             nullProp: null,
+            keepProp: 'keep',
           },
         })
-          .then(() => {})
-          .catch(() => {});
+          .then(() => {
+          })
+          .catch(() => {
+          });
       });
     });
     describe('options of query({opts})', () => {
@@ -191,6 +219,7 @@ describe('FetchQL', () => {
             request(url, config) {
               expect(config).to.not.has('emptyString');
               expect(config).to.not.has('nullProp');
+              expect(config).to.not.has('keepProp');
               return [url, config];
             },
           },
@@ -208,8 +237,10 @@ describe('FetchQL', () => {
             omitEmptyVariables: true,
           },
         })
-          .then(() => {})
-          .catch(() => {});
+          .then(() => {
+          })
+          .catch(() => {
+          });
       });
     });
   });

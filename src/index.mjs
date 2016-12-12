@@ -59,11 +59,11 @@ class FetchInterceptor {
 
     this.reversedInterceptors.forEach(({ request, requestError }) => {
       if (request || requestError) {
-        promise = promise.then(args => request(...args), requestError);
+        promise = promise.then(() => request(...args), requestError);
       }
     });
 
-    promise = promise.then(args => fetch(...args));
+    promise = promise.then(() => fetch(...args));
 
     this.reversedInterceptors.forEach(({ response, responseError }) => {
       if (response || responseError) {
@@ -84,8 +84,9 @@ class FetchQL extends FetchInterceptor {
    * @param {{}=} headers - request headers
    * @param {FetchQL~requestQueueChanged=} onStart - callback function of a new request queue
    * @param {FetchQL~requestQueueChanged=} onEnd - callback function of request queue finished
+   * @param {Boolean=} omitEmptyVariables - remove null props(null or '') from the variables
    */
-  constructor({ url, interceptors, headers, onStart, onEnd }) {
+  constructor({ url, interceptors, headers, onStart, onEnd, omitEmptyVariables = false }) {
     super();
 
     this.requestObject = {
@@ -99,6 +100,8 @@ class FetchQL extends FetchInterceptor {
 
     this.url = url;
 
+    this.omitEmptyVariables = omitEmptyVariables;
+
     // marker for request queue
     this.requestQueueLength = 0;
 
@@ -107,7 +110,7 @@ class FetchQL extends FetchInterceptor {
 
     this.callbacks = {
       onStart,
-      onEnd
+      onEnd,
     };
 
     this.addInterceptors(interceptors);
@@ -118,14 +121,23 @@ class FetchQL extends FetchInterceptor {
    * @param {String} operationName
    * @param {String} query
    * @param {Object} variables
+   * @param {Object} opts - addition options(will not be passed to server)
+   * @param {Boolean=} opts.omitEmptyVariables - remove null props(null or '') from the variables
    * @returns {Promise}
+   * @memberOf FetchQL
    */
-  query({ operationName, query, variables }) {
+  query({ operationName, query, variables, opts = {} }) {
     const options = Object.assign({}, this.requestObject);
+    let vars;
+    if (this.omitEmptyVariables || opts.omitEmptyVariables) {
+      vars = this.doOmitEmptyVariables(variables);
+    } else {
+      vars = variables;
+    }
     const body = {
       operationName,
       query,
-      variables: JSON.stringify(variables)
+      variables: JSON.stringify(vars),
     };
     options.body = JSON.stringify(body);
 
@@ -135,17 +147,16 @@ class FetchQL extends FetchInterceptor {
       .then(res => {
         if (res.ok) {
           return res.json();
-        } else {
-          // return an custom error stack if request error
-          return {
-            errors: [{
-              message: res.statusText,
-              stack: res
-            }]
-          };
         }
+        // return an custom error stack if request error
+        return {
+          errors: [{
+            message: res.statusText,
+            stack: res,
+          }],
+        };
       })
-      .then(({data, errors}) => (
+      .then(({ data, errors }) => (
         new Promise((resolve, reject) => {
           this.onEnd();
 
@@ -166,6 +177,7 @@ class FetchQL extends FetchInterceptor {
   /**
    * get current server address
    * @returns {String}
+   * @memberOf FetchQL
    */
   getUrl() {
     return this.url;
@@ -174,6 +186,7 @@ class FetchQL extends FetchInterceptor {
   /**
    * setting a new server address
    * @param {String} url
+   * @memberOf FetchQL
    */
   setUrl(url) {
     this.url = url;
@@ -183,9 +196,10 @@ class FetchQL extends FetchInterceptor {
    * get information of enum type
    * @param {String[]} EnumNameList - array of enums' name
    * @returns {Promise}
+   * @memberOf FetchQL
    */
   getEnumTypes(EnumNameList) {
-    let fullData = {};
+    const fullData = {};
 
     // check cache status
     const unCachedEnumList = EnumNameList.filter(element => {
@@ -234,15 +248,14 @@ class FetchQL extends FetchInterceptor {
       .then(res => {
         if (res.ok) {
           return res.json();
-        } else {
-          // return an custom error stack if request error
-          return {
-            errors: [{
-              message: res.statusText,
-              stack: res
-            }]
-          };
         }
+        // return an custom error stack if request error
+        return {
+          errors: [{
+            message: res.statusText,
+            stack: res,
+          }],
+        };
       })
       .then(({ data, errors }) => (
         new Promise((resolve, reject) => {
@@ -260,12 +273,11 @@ class FetchQL extends FetchInterceptor {
           // merge enums' data
           const passData = Object.assign(fullData, data);
           // cache new enums' data
-          for (var key in data) {
-            if (data.hasOwnProperty(key)) {
-              this.EnumMap[key] = data[key];
-            }
-          }
-          resolve({ data: passData, errors });
+          Object.keys(data).map(key => {
+            this.EnumMap[key] = data[key];
+            return key;
+          });
+          return resolve({ data: passData, errors });
         })
       ));
   }
@@ -299,6 +311,24 @@ class FetchQL extends FetchInterceptor {
    * @callback FetchQL~requestQueueChanged
    * @param {number} queueLength - length of current request queue
    */
+
+  /**
+   * remove empty props(null or '') from object
+   * @param {Object} input
+   * @returns {Object}
+   * @memberOf FetchQL
+   * @private
+   */
+  doOmitEmptyVariables(input) {
+    const nonEmptyObj = {};
+    Object.keys(input).map(key => {
+      if ((input[key] !== null && input[key] !== '')) {
+        nonEmptyObj[key] = input[key];
+      }
+      return key;
+    });
+    return nonEmptyObj;
+  }
 }
 
 module.exports = FetchQL;

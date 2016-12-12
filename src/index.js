@@ -116,7 +116,7 @@ class FetchQL extends FetchInterceptor {
    * @param {String} query
    * @param {Object} variables
    * @param {Object} opts - addition options(will not be passed to server)
-   * @param {Boolean=} options.omitEmptyVariables - remove null props(null or '') from the variables
+   * @param {Boolean=} opts.omitEmptyVariables - remove null props(null or '') from the variables
    * @returns {Promise}
    * @memberOf FetchQL
    */

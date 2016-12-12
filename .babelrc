@@ -4,7 +4,6 @@
     "es2015"
   ],
   "plugins": ["transform-object-assign"],
-  "minified": true,
   "comments": false,
   "sourceMaps": true
 }
