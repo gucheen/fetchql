@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 2.0.0
+
+  - breaking changes: Source code has been moved into `./src` and distributed file goes to `./lib`;
+  - breaking changes: Distributed file(`./lib/fetchql.js`) is unminified now. 
+  - feature: remove empty string(`''`) or `null` values in query variables. 
+
 ## 1.6.2
 
   - fix: spelling of property name in typescript declaration file.
