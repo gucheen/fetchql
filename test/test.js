@@ -4,7 +4,7 @@
 require('babel-register');
 const expect = require('chai').expect;
 global.fetch = require('node-fetch');
-const FetchQL = require('../lib/index').default;
+const FetchQL = require('../src/index').default;
 
 require('./server');
 

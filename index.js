@@ -1,3 +1,3 @@
-var FetchQL = require('./build/fetchql.js');
+var FetchQL = require('./lib/fetchql.js').default;
 
 module.exports = FetchQL;
