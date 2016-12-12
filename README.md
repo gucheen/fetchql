@@ -156,7 +156,7 @@ FetchQL is a query client for GraphQL server works on both browser and Node(need
 
     Sometimes `null` or `''` could be different meanings in backend logic.
     
-    And if you just want the backend to **ignore these variable**, use this option to remove them.
+    And if you just want the backend to **ignore these variables**, use this option to remove them.
 
     ```
     { emptyString: '', nullProp: null } => {} // remove them
