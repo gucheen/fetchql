@@ -158,8 +158,10 @@ FetchQL is a query client for GraphQL server works on both browser and Node(need
     
     And if you just want the backend to **ignore these variables**, use this option to remove them.
 
+    **Notice**: Only properties those in an object of 'variables', will be removed.
+
     ```
-    { emptyString: '', nullProp: null } => {} // remove them
+    { willNotRemove: '', obj: { emptyString: '', nullProp: null } } => { willNotRemove: '', obj: {} } // remove them
     ```
   
 ## .js or .mjs

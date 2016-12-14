@@ -188,8 +188,10 @@ describe('FetchQL', () => {
         interceptors: [
           {
             request(url, config) {
+              expect(config).to.has('ignore');
               expect(config).to.not.has('emptyString');
               expect(config).to.not.has('nullProp');
+              expect(config).to.has('keepProp');
               return [url, config];
             },
           },
@@ -200,9 +202,11 @@ describe('FetchQL', () => {
           operationName: 'Query',
           query: testQuery,
           variables: {
-            emptyString: '',
-            nullProp: null,
             keepProp: 'keep',
+            ignore: {
+              emptyString: '',
+              nullProp: null,
+            },
           },
         })
           .then(() => {
@@ -217,9 +221,10 @@ describe('FetchQL', () => {
         interceptors: [
           {
             request(url, config) {
+              expect(config).to.has('ignore');
               expect(config).to.not.has('emptyString');
               expect(config).to.not.has('nullProp');
-              expect(config).to.not.has('keepProp');
+              expect(config).to.has('keepProp');
               return [url, config];
             },
           },
@@ -230,8 +235,11 @@ describe('FetchQL', () => {
           operationName: 'Query',
           query: testQuery,
           variables: {
-            emptyString: '',
-            nullProp: null,
+            keepProp: 'keep',
+            ignore: {
+              emptyString: '',
+              nullProp: null,
+            },
           },
           opts: {
             omitEmptyVariables: true,

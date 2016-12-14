@@ -8,13 +8,19 @@ interface FetchQLInterceptor {
 interface FetchQLOptions {
   url: string;
   interceptors?: FetchQLInterceptor | FetchQLInterceptor[];
-  headers?: Object
+  headers?: Object;
+  onStart: (queueLength: number) => void;
+  onEnd: (queueLength: number) => void;
+  omitEmptyVariables: boolean;
 }
 
 interface FetchQLQuery {
   operationName: string;
   query: string;
   variables?: Object;
+  opts: {
+    omitEmptyVariables: boolean;
+  };
 }
 
 interface FetchQL_Static {
