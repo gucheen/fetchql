@@ -257,7 +257,7 @@ class FetchQL extends FetchInterceptor {
 
           // if data in response is 'null' and have any errors
           if (!data) {
-            return reject(errors || [{}]);
+            return reject(errors || [{ message: 'Do not get any data.' }]);
           }
           // if all properties of data is 'null'
           const allDataKeyEmpty = Object.keys(data).every(key => !data[key]);
