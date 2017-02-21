@@ -316,10 +316,13 @@ class FetchQL extends FetchInterceptor {
   doOmitEmptyVariables(input) {
     const nonEmptyObj = {};
     Object.keys(input).map(key => {
-      if (input[key] instanceof Object) {
-        nonEmptyObj[key] = this.doOmitEmptyVariables(input[key]);
+      const value = input[key];
+      if ((typeof value === 'string' && value.length === 0) || value === null || value === undefined) {
+        return key;
+      } else if (value instanceof Object) {
+        nonEmptyObj[key] = this.doOmitEmptyVariables(value);
       } else {
-        nonEmptyObj[key] = input[key];
+        nonEmptyObj[key] = value;
       }
       return key;
     });
