@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 2.0.1
+
+  - fix: omitEmptyVariables haven’t remove properties correctly.
+  - update: now reject errors will have a default error message, if server-side doesn’t throw any errors.
+
 ## 2.0.0
 
   - breaking changes: Source code has been moved into `./src` and distributed file goes to `./lib`;
