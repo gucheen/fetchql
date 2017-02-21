@@ -119,13 +119,15 @@ describe('FetchQL', () => {
   describe('Customized headers', () => {
     it('should add customized headers to request', () => {
       return testQL.query({
-        operationName: 'Query',
-        query: `
+          operationName: 'Query',
+          query: `
         query Query {
           headerCheck
         }`,
-      })
-        .then(({data}) => {
+        })
+        .then(({
+          data
+        }) => {
           expect(data.headerCheck).to.be.true;
         });
     });
@@ -138,11 +140,11 @@ describe('FetchQL', () => {
   describe('Interceptor', () => {
     describe('#addInterceptors()', () => {
       removeInterceptors = testQL.addInterceptors({
-        request: function (url, config) {
+        request: function(url, config) {
           requestIntercepted = true;
           return [url, config];
         },
-        response: function (response) {
+        response: function(response) {
           responseIntercepted = true;
           return response;
         },
@@ -185,69 +187,71 @@ describe('FetchQL', () => {
       const omitQLTest = new FetchQL({
         url: testUrl,
         omitEmptyVariables: true,
-        interceptors: [
-          {
-            request(url, config) {
-              expect(config).to.has('ignore');
-              expect(config).to.not.has('emptyString');
-              expect(config).to.not.has('nullProp');
-              expect(config).to.has('keepProp');
-              return [url, config];
-            },
+        interceptors: [{
+          request(url, config) {
+            const variables = JSON.parse(JSON.parse(config.body).variables);
+            expect(variables).to.have.property('ignore');
+            expect(variables.ignore.emptyString).to.be.undefined;
+            expect(variables.ignore.nullProp).to.be.undefined;
+            expect(variables).to.have.property('keepProp');
+            return [url, config];
           },
-        ],
+        }, ],
       });
-      it('should remove null or empty string in variables of query struct', () => {
+      it('should remove null or empty string in variables of query struct', (done) => {
         omitQLTest.query({
-          operationName: 'Query',
-          query: testQuery,
-          variables: {
-            keepProp: 'keep',
-            ignore: {
-              emptyString: '',
-              nullProp: null,
+            operationName: 'Query',
+            query: testQuery,
+            variables: {
+              keepProp: 'keep',
+              ignore: {
+                emptyString: '',
+                nullProp: null,
+              },
             },
-          },
-        })
-          .then(() => {
           })
-          .catch(() => {
+          .then(() => {
+            done();
+          })
+          .catch((errors) => {
+            done(errors);
           });
       });
     });
     describe('options of query({opts})', () => {
       const omitQLTest = new FetchQL({
         url: testUrl,
-        interceptors: [
-          {
-            request(url, config) {
-              expect(config).to.has('ignore');
-              expect(config).to.not.has('emptyString');
-              expect(config).to.not.has('nullProp');
-              expect(config).to.has('keepProp');
-              return [url, config];
-            },
+        interceptors: [{
+          request(url, config) {
+            const variables = JSON.parse(JSON.parse(config.body).variables);
+            expect(variables).to.have.property('ignore');
+            expect(variables.ignore.emptyString).to.be.undefined;
+            expect(variables.ignore.nullProp).to.be.undefined;
+            expect(variables).to.have.property('keepProp');
+            return [url, config];
           },
-        ],
+        }, ],
       });
-      it('should remove null or empty string in variables of query struct', () => {
+      it('should remove null or empty string in variables of query struct', (done) => {
         omitQLTest.query({
-          operationName: 'Query',
-          query: testQuery,
-          variables: {
-            keepProp: 'keep',
-            ignore: {
-              emptyString: '',
-              nullProp: null,
+            operationName: 'Query',
+            query: testQuery,
+            variables: {
+              keepProp: 'keep',
+              ignore: {
+                emptyString: '',
+                nullProp: null,
+              },
             },
-          },
-          opts: {
-            omitEmptyVariables: true,
-          },
-        })
-          .then(() => {
+            opts: {
+              omitEmptyVariables: true,
+            },
           })
-          .catch(() => {
+          .then(() => {
+            done();
+          })
+          .catch((errors) => {
+            done(errors);
           });
       });
     });
