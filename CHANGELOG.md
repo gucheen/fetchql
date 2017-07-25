@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.1.0
+
+  - feature: 'requestOptions' to set default fetch request options and change it in query method
+
 ## 2.0.1
 
   - fix: omitEmptyVariables haven’t remove properties correctly.

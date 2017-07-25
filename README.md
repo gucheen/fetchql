@@ -163,6 +163,32 @@ FetchQL is a query client for GraphQL server works on both browser and Node(need
     ```
     { willNotRemove: '', obj: { emptyString: '', nullProp: null } } => { willNotRemove: '', obj: {} } // remove them
     ```
+
+  * **requestOptions** - Object change request options of fetch in FetchQL.
+
+    ```
+    var ql = new FetchQL(
+      {
+        requestOptions: {
+          credentials: 'include',
+        },
+      }
+    );
+
+    ql.query(
+      {
+        requestOptions: {
+          credentials: 'same-origin',
+        },
+      }
+    );
+    ```
+
+    `requestOptions` in FetchQL's `new constructor` or `query` is used to change request options of `fetch` method in FetchQL.
+
+    Set it in new constructor will change default request options in all query in FetchQL.
+
+    Set it in query method will only change request options of current query.
   
 ## .js or .mjs
 
