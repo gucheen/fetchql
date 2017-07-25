@@ -1,6 +1,6 @@
 {
   "name": "fetchql",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "GraphQL query client with Fetch",
   "main": "index.js",
   "scripts": {
