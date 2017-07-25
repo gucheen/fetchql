@@ -43,12 +43,18 @@ const testQL = new FetchQL({
     endTrack = true;
     queueLength = requestQueueLength;
   },
+  requestOptions: {
+    credentials: 'include',
+  },
 });
 
 describe('FetchQL', () => {
   describe('#constructor', () => {
     it('should return an Object', () => {
       expect(testQL).to.be.a('object');
+    });
+    it('should set default fetch request options with requestOptions', () => {
+      expect(testQL.requestObject.credentials).to.eql('include');
     });
   });
 
@@ -272,6 +278,28 @@ describe('FetchQL', () => {
       });
       it('should have a paramemter of the request queue\'s length', () => {
         expect(queueLength).to.be.a('number');
+      });
+    });
+  });
+
+  let requestCredentialsFlag = false;
+
+  describe('Request Options', () => {
+    describe('change request options of query', () => {
+      it('should change request options of query with "requestOptions" in parameters', () => {
+        testQL.addInterceptors({
+          request: function(url, config) {
+            requestCredentialsFlag = config.credentials === 'same-origin';
+            return [url, config];
+          },
+        });
+
+        const call = testQL.query(Object.assign(testQueryParams, { requestOptions: { credentials: 'same-origin', }, }));
+
+        return call.then(() => {
+          expect(requestCredentialsFlag).to.be.true;
+          testQL.clearInterceptors();
+        });
       });
     });
   });

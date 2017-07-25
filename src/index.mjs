@@ -85,18 +85,31 @@ class FetchQL extends FetchInterceptor {
    * @param {FetchQL~requestQueueChanged=} onStart - callback function of a new request queue
    * @param {FetchQL~requestQueueChanged=} onEnd - callback function of request queue finished
    * @param {Boolean=} omitEmptyVariables - remove null props(null or '') from the variables
+   * @param {Object} requestOptions - addition options to fetch request(refer to fetch api)
    */
-  constructor({ url, interceptors, headers, onStart, onEnd, omitEmptyVariables = false }) {
+  constructor({
+     url,
+     interceptors,
+     headers,
+     onStart,
+     onEnd,
+     omitEmptyVariables = false,
+     requestOptions = {},
+  }) {
     super();
 
-    this.requestObject = {
-      method: 'POST',
-      headers: Object.assign({}, {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      }, headers),
-      credentials: 'same-origin',
-    };
+    this.requestObject = Object.assign(
+      {},
+      {
+        method: 'POST',
+        headers: Object.assign({}, {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        }, headers),
+        credentials: 'same-origin',
+      },
+      requestOptions,
+    );
 
     this.url = url;
 
@@ -123,11 +136,12 @@ class FetchQL extends FetchInterceptor {
    * @param {Object} variables
    * @param {Object} opts - addition options(will not be passed to server)
    * @param {Boolean=} opts.omitEmptyVariables - remove null props(null or '') from the variables
+   * @param {Object} requestOptions - addition options to fetch request(refer to fetch api)
    * @returns {Promise}
    * @memberOf FetchQL
    */
-  query({ operationName, query, variables, opts = {} }) {
-    const options = Object.assign({}, this.requestObject);
+  query({ operationName, query, variables, opts = {}, requestOptions = {}, }) {
+    const options = Object.assign({}, this.requestObject, requestOptions);
     let vars;
     if (this.omitEmptyVariables || opts.omitEmptyVariables) {
       vars = this.doOmitEmptyVariables(variables);

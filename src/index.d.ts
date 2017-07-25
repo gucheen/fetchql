@@ -12,6 +12,7 @@ interface FetchQLOptions {
   onStart: (queueLength: number) => void;
   onEnd: (queueLength: number) => void;
   omitEmptyVariables: boolean;
+  requestOptions?: Object;
 }
 
 interface FetchQLQuery {
@@ -21,6 +22,7 @@ interface FetchQLQuery {
   opts: {
     omitEmptyVariables: boolean;
   };
+  requestOptions?: Object;
 }
 
 interface FetchQL_Static {
