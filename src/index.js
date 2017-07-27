@@ -1,3 +1,4 @@
+/** Class to realize fetch interceptors */
 class FetchInterceptor {
   constructor() {
     this.interceptors = [];
@@ -27,6 +28,10 @@ class FetchInterceptor {
     return () => this.removeInterceptors(removeIndex);
   }
 
+  /**
+   * remove interceptors by indexes
+   * @param {number[]} indexes 
+   */
   removeInterceptors(indexes) {
     if (Array.isArray(indexes)) {
       indexes.map(index => this.interceptors.splice(index, 1));
@@ -34,6 +39,9 @@ class FetchInterceptor {
     }
   }
 
+  /**
+   * @private
+   */
   updateInterceptors() {
     this.reversedInterceptors = this.interceptors
       .reduce((array, interceptor) => [interceptor].concat(array), []);
@@ -48,6 +56,9 @@ class FetchInterceptor {
     this.updateInterceptors();
   }
 
+  /**
+   * @private
+   */
   interceptorWrapper(fetch, ...args) {
     let promise = Promise.resolve(args);
 
@@ -69,17 +80,20 @@ class FetchInterceptor {
   }
 }
 
+/**
+ * GraphQL client with fetch api.
+ * @extends FetchInterceptor
+ */
 class FetchQL extends FetchInterceptor {
   /**
-   * FetchQL Class
-   * @class
+   * Create a FetchQL instance.
    * @param {String} url - the server address of GraphQL
    * @param {(Object|Object[])=} interceptors
    * @param {{}=} headers - request headers
    * @param {FetchQL~requestQueueChanged=} onStart - callback function of a new request queue
    * @param {FetchQL~requestQueueChanged=} onEnd - callback function of request queue finished
    * @param {Boolean=} omitEmptyVariables - remove null props(null or '') from the variables
-   * @param {Object} requestOptions - addition options to fetch request(refer to fetch api)
+   * @param {Object=} requestOptions - addition options to fetch request(refer to fetch api)
    */
   constructor({
      url,
