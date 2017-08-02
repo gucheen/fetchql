@@ -189,6 +189,10 @@ FetchQL is a query client for GraphQL server works on both browser and Node(need
     Set it in new constructor will change default request options in all query in FetchQL.
 
     Set it in query method will only change request options of current query.
+    
+## Tips
+
+1. [FetchQL in angularjs](https://github.com/gucheen/FetchQL/wiki/FetchQL-in-angularjs)
   
 ## .js or .mjs
 
