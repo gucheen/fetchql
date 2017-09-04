@@ -87,13 +87,14 @@ class FetchInterceptor {
 class FetchQL extends FetchInterceptor {
   /**
    * Create a FetchQL instance.
-   * @param {String} url - the server address of GraphQL
-   * @param {(Object|Object[])=} interceptors
-   * @param {{}=} headers - request headers
-   * @param {FetchQL~requestQueueChanged=} onStart - callback function of a new request queue
-   * @param {FetchQL~requestQueueChanged=} onEnd - callback function of request queue finished
-   * @param {Boolean=} omitEmptyVariables - remove null props(null or '') from the variables
-   * @param {Object=} requestOptions - addition options to fetch request(refer to fetch api)
+   * @param {Object} options
+   * @param {String} options.url - the server address of GraphQL
+   * @param {(Object|Object[])=} options.interceptors
+   * @param {{}=} options.headers - request headers
+   * @param {FetchQL~requestQueueChanged=} options.onStart - callback function of a new request queue
+   * @param {FetchQL~requestQueueChanged=} options.onEnd - callback function of request queue finished
+   * @param {Boolean=} options.omitEmptyVariables - remove null props(null or '') from the variables
+   * @param {Object=} options.requestOptions - addition options to fetch request(refer to fetch api)
    */
   constructor({
      url,
@@ -138,13 +139,14 @@ class FetchQL extends FetchInterceptor {
   }
 
   /**
-   * operate an query
-   * @param {String} operationName
-   * @param {String} query
-   * @param {Object=} variables
-   * @param {Object} opts - addition options(will not be passed to server)
-   * @param {Boolean=} opts.omitEmptyVariables - remove null props(null or '') from the variables
-   * @param {Object} requestOptions - addition options to fetch request(refer to fetch api)
+   * operate a query
+   * @param {Object} options
+   * @param {String} options.operationName
+   * @param {String} options.query
+   * @param {Object=} options.variables
+   * @param {Object=} options.opts - addition options(will not be passed to server)
+   * @param {Boolean=} options.opts.omitEmptyVariables - remove null props(null or '') from the variables
+   * @param {Object=} options.requestOptions - addition options to fetch request(refer to fetch api)
    * @returns {Promise}
    * @memberOf FetchQL
    */

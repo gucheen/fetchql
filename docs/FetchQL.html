@@ -28,7 +28,7 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>FetchQL<span class="signature">(url, interceptors<span class="signature-attributes">opt</span>, headers<span class="signature-attributes">opt</span>, onStart<span class="signature-attributes">opt</span>, onEnd<span class="signature-attributes">opt</span>, omitEmptyVariables<span class="signature-attributes">opt</span>, requestOptions<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>FetchQL<span class="signature">(options)</span><span class="type-signature"></span></h2>
         
             <div class="class-description">GraphQL client with fetch api.</div>
         
@@ -45,7 +45,7 @@
     
 
     
-    <h4 class="name" id="FetchQL"><span class="type-signature"></span>new FetchQL<span class="signature">(url, interceptors<span class="signature-attributes">opt</span>, headers<span class="signature-attributes">opt</span>, onStart<span class="signature-attributes">opt</span>, onEnd<span class="signature-attributes">opt</span>, omitEmptyVariables<span class="signature-attributes">opt</span>, requestOptions<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="FetchQL"><span class="type-signature"></span>new FetchQL<span class="signature">(options)</span><span class="type-signature"></span></h4>
     
 
     
@@ -66,6 +66,48 @@
 
     <h5>Parameters:</h5>
     
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
 
 <table class="params">
     <thead>
@@ -317,6 +359,13 @@
             
 
             <td class="description last">addition options to fetch request(refer to fetch api)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -757,7 +806,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line223">line 223</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line225">line 225</a>
     </li></ul></dd>
     
 
@@ -861,7 +910,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line204">line 204</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line206">line 206</a>
     </li></ul></dd>
     
 
@@ -966,7 +1015,7 @@ if current queue finished, calling the 'onEnd' method
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line323">line 323</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line325">line 325</a>
     </li></ul></dd>
     
 
@@ -1053,7 +1102,7 @@ if the request belong to a new queue, call the 'onStart' method
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line311">line 311</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line313">line 313</a>
     </li></ul></dd>
     
 
@@ -1087,7 +1136,7 @@ if the request belong to a new queue, call the 'onStart' method
     
 
     
-    <h4 class="name" id="query"><span class="type-signature"></span>query<span class="signature">(operationName, query, variables<span class="signature-attributes">opt</span>, opts, requestOptions)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+    <h4 class="name" id="query"><span class="type-signature"></span>query<span class="signature">(options)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
     
 
     
@@ -1095,7 +1144,7 @@ if the request belong to a new queue, call the 'onStart' method
 
 
 <div class="description">
-    operate an query
+    operate a query
 </div>
 
 
@@ -1108,6 +1157,48 @@ if the request belong to a new queue, call the 'onStart' method
 
     <h5>Parameters:</h5>
     
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <h6>Properties</h6>
+                
 
 <table class="params">
     <thead>
@@ -1243,6 +1334,8 @@ if the request belong to a new queue, call the 'onStart' method
             
                 <td class="attributes">
                 
+                    &lt;optional><br>
+                
 
                 
 
@@ -1335,6 +1428,8 @@ if the request belong to a new queue, call the 'onStart' method
             
                 <td class="attributes">
                 
+                    &lt;optional><br>
+                
 
                 
 
@@ -1345,6 +1440,13 @@ if the request belong to a new queue, call the 'onStart' method
             
 
             <td class="description last">addition options to fetch request(refer to fetch api)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -1385,7 +1487,7 @@ if the request belong to a new queue, call the 'onStart' method
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line151">line 151</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line153">line 153</a>
     </li></ul></dd>
     
 
@@ -1678,7 +1780,7 @@ if the request belong to a new queue, call the 'onStart' method
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line213">line 213</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line215">line 215</a>
     </li></ul></dd>
     
 
@@ -1819,7 +1921,7 @@ if the request belong to a new queue, call the 'onStart' method
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line331">line 331</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line333">line 333</a>
     </li></ul></dd>
     
 
@@ -1867,7 +1969,7 @@ if the request belong to a new queue, call the 'onStart' method
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.3</a> on Mon Sep 04 2017 11:54:21 GMT+0800 (CST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.3</a> on Mon Sep 04 2017 11:59:10 GMT+0800 (CST)
 </footer>
 
 <script> prettyPrint(); </script>
