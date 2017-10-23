@@ -195,7 +195,7 @@ describe('FetchQL', () => {
         omitEmptyVariables: true,
         interceptors: [{
           request(url, config) {
-            const variables = JSON.parse(JSON.parse(config.body).variables);
+            const variables = JSON.parse(config.body).variables;
             expect(variables).to.have.property('ignore');
             expect(variables.ignore.emptyString).to.be.undefined;
             expect(variables.ignore.nullProp).to.be.undefined;
@@ -229,7 +229,7 @@ describe('FetchQL', () => {
         url: testUrl,
         interceptors: [{
           request(url, config) {
-            const variables = JSON.parse(JSON.parse(config.body).variables);
+            const variables = JSON.parse(config.body).variables;
             expect(variables).to.have.property('ignore');
             expect(variables.ignore.emptyString).to.be.undefined;
             expect(variables.ignore.nullProp).to.be.undefined;

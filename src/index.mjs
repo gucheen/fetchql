@@ -152,7 +152,7 @@ class FetchQL extends FetchInterceptor {
     const body = {
       operationName,
       query,
-      variables: JSON.stringify(vars),
+      variables: vars,
     };
     options.body = JSON.stringify(body);
 
