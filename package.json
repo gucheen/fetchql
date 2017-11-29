@@ -41,7 +41,7 @@
     "eslint-plugin-import": "^2.2.0",
     "express": "^4.13.4",
     "graphql": "^0.8.2",
-    "istanbul": "^1.1.0-alpha.1",
+    "istanbul": "git://github.com/gotwarlost/istanbul.git#harmony",
     "mocha": "^3.2.0",
     "node-fetch": "^1.5.2",
     "npm-run-all": "^4.1.2"
