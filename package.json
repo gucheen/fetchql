@@ -5,7 +5,7 @@
   "main": "fetchql.js",
   "module": "fetchql.es.js",
   "scripts": {
-    "test": "istanbul cover _mocha -- ./test/test",
+    "test": "NODE_ENV=test istanbul cover _mocha -- ./test/test",
     "compile": "run-p compile:es compile:cjs",
     "compile:cjs": "NODE_ENV=cjs node_modules/.bin/babel src/index.js --out-file lib/fetchql.js",
     "compile:es": "NODE_ENV=es node_modules/.bin/babel src/index.js --out-file lib/fetchql.es.js",
@@ -41,7 +41,7 @@
     "eslint-plugin-import": "^2.2.0",
     "express": "^4.13.4",
     "graphql": "^0.8.2",
-    "istanbul": "git://github.com/gotwarlost/istanbul.git#harmony",
+    "istanbul": "v1.0.0-alpha.2",
     "mocha": "^3.2.0",
     "node-fetch": "^1.5.2",
     "npm-run-all": "^4.1.2"
