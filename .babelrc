@@ -1,9 +1,42 @@
 {
-  "presets": [
-    "stage-0",
-    "es2015"
-  ],
-  "plugins": ["transform-object-assign"],
-  "comments": false,
-  "sourceMaps": true
+  "env": {
+    "test": {
+      "presets": [
+        [
+          "env",
+          {
+            "targets": {
+            "node": "current"
+          }
+          }  
+        ]
+      ]
+    },
+    "es": {
+      "presets": [
+        [
+          "env",
+          {
+            "comments": false,
+            "modules": false,
+            "useBuiltIns": false,
+            "sourceMaps": true
+          }
+        ]
+      ]
+    },
+    "cjs": {
+      "presets": [
+        [
+          "env",
+          {
+            "modules": "commonjs",
+            "comments": false,
+            "sourceMaps": true
+          }
+        ],
+        "stage-1"
+      ]
+    }
+  }
 }
