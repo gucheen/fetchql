@@ -10,7 +10,7 @@ FetchQL is a query client for GraphQL server works on both browser and Node(need
 
 ## Upgrade to 2.2.0
 
-  Now FetchQL distribute an ES module(`./lib/fetchql.es.js`) by default and you may simple import FetchQL by `import fetchql from 'fetchql'`.
+  Now FetchQL distribute an ES module(`./lib/fetchql.es.js`) by default and you can simplely import FetchQL by `import fetchql from 'fetchql'`.
 
   For details, please refer to [PR: Added support for ES modules by default](https://github.com/gucheen/FetchQL/pull/6#issue-277709034).
 

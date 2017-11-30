@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 2.2.0
+
+  Now FetchQL distribute an ES module(`./lib/fetchql.es.js`) by default and you can simplely import FetchQL by `import fetchql from 'fetchql'`.
+
+  For details, please refer to [PR: Added support for ES modules by default](https://github.com/gucheen/FetchQL/pull/6#issue-277709034).
+
 ## 2.1.0
 
   - feature: 'requestOptions' to set default fetch request options and change it in query method
