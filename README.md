@@ -30,7 +30,7 @@ FetchQL is a query client for GraphQL server works on both browser and Node(need
 
 ## Usage
 
-  `FetchQL` distribute both ES module and CommonJS module
+  `FetchQL` distributes both ES module and CommonJS module
   
   Import FetchQL:
 
