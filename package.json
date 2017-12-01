@@ -42,11 +42,10 @@
     "express": "^4.13.4",
     "graphql": "^0.8.2",
     "istanbul": "v1.0.0-alpha.2",
+    "jsdoc": "^3.5.5",
     "mocha": "^3.2.0",
     "node-fetch": "^1.5.2",
     "npm-run-all": "^4.1.2"
   },
-  "dependencies": {
-    "jsdoc": "^3.5.5"
-  }
+  "dependencies": {}
 }
