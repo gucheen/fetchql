@@ -30,8 +30,14 @@ FetchQL is a query client for GraphQL server works on both browser and Node(need
 
 ## Usage
 
-  - `FetchQL` will export as ES5(CMD module) by default.
-  - If you want to use the ES2015, import or require `fetchql/src/index.js` instead.
+  `FetchQL` distribute both ES module and CommonJS module
+  
+  Import FetchQL:
+
+  - `import FetchQL from 'fetchql'`  
+  - `const FetchQL = require('fetchql')`
+
+  ES module support is determined by your bundler tool(webpack, rollup, etc.).
   
 ## Documentation
   * **Class FetchQL**

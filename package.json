@@ -46,5 +46,7 @@
     "node-fetch": "^1.5.2",
     "npm-run-all": "^4.1.2"
   },
-  "dependencies": {}
+  "dependencies": {
+    "jsdoc": "^3.5.5"
+  }
 }
