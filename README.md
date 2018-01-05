@@ -10,7 +10,7 @@ FetchQL is a query client for GraphQL server works on both browser and Node(need
 
 ## Upgrade to 2.2.0
 
-  Now FetchQL distribute an ES module(`./lib/fetchql.es.js`) by default and you can simplely import FetchQL by `import fetchql from 'fetchql'`.
+  Now FetchQL distributes an ES module(`./lib/fetchql.es.js`) by default and you can simply import FetchQL by `import fetchql from 'fetchql'`.
 
   For details, please refer to [PR: Added support for ES modules by default](https://github.com/gucheen/FetchQL/pull/6#issue-277709034).
 
@@ -119,7 +119,7 @@ FetchQL is a query client for GraphQL server works on both browser and Node(need
   
     `Query.getEnumTypes(['array', 'of', 'enum', 'name'])` => Promise
     
-    Will get enums' information from the server. Then you can get a following Object in promise:
+    Will get enums' information from the server. Then you can get the following Object in the promise:
     
     ```js
     {
@@ -152,13 +152,13 @@ FetchQL is a query client for GraphQL server works on both browser and Node(need
 
   * **callback - onStart(requestQueueLength), onEnd(requestQueueLength)**
     
-    When FetchQL make a new request, if it is belonged to a new queue(means there are no requests before), will call `onStart()`.
+    When FetchQL make a new request, if it belongs to a new queue(means there are no requests before), will call `onStart()`.
 
-    By this you can know that now there are some network requests within FetchQL.
+    By this, you can know that now there are some network requests within FetchQL.
 
-    When FetchQL finish a request and find that there are no requests any more, will call `onEnd()`.
+    When FetchQL finishes a request and find that there are no requests anymore, will call `onEnd()`.
 
-    By this you can know that all requests within FetchQL have been finished.
+    By this, you can know that all requests within FetchQL have been finished.
 
     These two callbacks are useful when you want to watch the state of FetchQL's network requesting.
     
@@ -198,9 +198,9 @@ FetchQL is a query client for GraphQL server works on both browser and Node(need
 
     `requestOptions` in FetchQL's `new constructor` or `query` is used to change request options of `fetch` method in FetchQL.
 
-    Set it in new constructor will change default request options in all query in FetchQL.
+    Set it in the new constructor will change default request options in all query in FetchQL.
 
-    Set it in query method will only change request options of current query.
+    Set it in query method will only change request options of the current query.
     
 ## Tips
 
