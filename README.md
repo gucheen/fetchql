@@ -1,8 +1,8 @@
 # FetchQL
 
 [![npm](https://img.shields.io/npm/v/fetchql.svg?style=flat-square)](https://www.npmjs.com/package/fetchql)
-[![Build Status](https://travis-ci.org/gucheen/FetchQL.svg?branch=master)](https://travis-ci.org/gucheen/FetchQL)
-[![Coverage Status](https://coveralls.io/repos/github/gucheen/FetchQL/badge.svg?branch=master)](https://coveralls.io/github/gucheen/FetchQL?branch=master)
+[![Build Status](https://travis-ci.org/gucheen/fetchql.svg?branch=master)](https://travis-ci.org/gucheen/fetchql)
+[![Coverage Status](https://coveralls.io/repos/github/gucheen/fetchql/badge.svg?branch=master)](https://coveralls.io/github/gucheen/fetchql?branch=master)
 
 GraphQL query client with Fetch
 
