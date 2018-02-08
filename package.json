@@ -4,6 +4,7 @@
   "description": "GraphQL query client with Fetch",
   "main": "fetchql.js",
   "module": "fetchql.es.js",
+  "types": "src/index.d.ts",
   "scripts": {
     "test": "NODE_ENV=test istanbul cover _mocha -- ./test/test",
     "compile": "run-p compile:es compile:cjs",
