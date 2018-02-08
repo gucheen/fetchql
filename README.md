@@ -1,10 +1,8 @@
-# FetchQL
+![FetchQL](fetchql_logo.png)
 
 [![npm](https://img.shields.io/npm/v/fetchql.svg?style=flat-square)](https://www.npmjs.com/package/fetchql)
 [![Build Status](https://travis-ci.org/gucheen/fetchql.svg?branch=master)](https://travis-ci.org/gucheen/fetchql)
 [![Coverage Status](https://coveralls.io/repos/github/gucheen/fetchql/badge.svg?branch=master)](https://coveralls.io/github/gucheen/fetchql?branch=master)
-
-GraphQL query client with Fetch
 
 FetchQL is a query client for GraphQL server works on both browser and Node(need fetch support, eg. node-fetch)
 
