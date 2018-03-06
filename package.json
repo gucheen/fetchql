@@ -2,8 +2,8 @@
   "name": "fetchql",
   "version": "2.2.0",
   "description": "GraphQL query client with Fetch",
-  "main": "fetchql.js",
-  "module": "fetchql.es.js",
+  "main": "index.js",
+  "module": "lib/fetchql.es.js",
   "types": "src/index.d.ts",
   "scripts": {
     "test": "NODE_ENV=test istanbul cover _mocha -- ./test/test",
