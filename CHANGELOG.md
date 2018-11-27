@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 3.0.0
+
+  - add: new TypeScript declaration file(.tsd). #9
+  - fix: eslint issues
+  - update deps: npm-run-all, to prevent security problems caused by event-stream(detail: dominictarr/event-stream#116)
+
 ## 2.2.0
 
   Now FetchQL distribute an ES module(`./lib/fetchql.es.js`) by default and you can simplely import FetchQL by `import fetchql from 'fetchql'`.
