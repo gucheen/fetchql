@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 3.0.0
+
+  - add: new TypeScript declaration file(.tsd). #9
+  - fix: eslint issues
+  - update deps: npm-run-all, to prevent security problems caused by event-stream(detail: dominictarr/event-stream#116)
+
 ## 2.2.0
 
   Now FetchQL distribute an ES module(`./lib/fetchql.es.js`) by default and you can simplely import FetchQL by `import fetchql from 'fetchql'`.
@@ -18,8 +24,8 @@
 ## 2.0.0
 
   - breaking changes: Source code has been moved into `./src` and distributed file goes to `./lib`;
-  - breaking changes: Distributed file(`./lib/fetchql.js`) is unminified now. 
-  - feature: remove empty string(`''`) or `null` values in query variables. 
+  - breaking changes: Distributed file(`./lib/fetchql.js`) is unminified now.
+  - feature: remove empty string(`''`) or `null` values in query variables.
 
 ## 1.6.2
 

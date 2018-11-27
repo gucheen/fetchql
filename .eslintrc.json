@@ -1,6 +1,6 @@
 {
-    "extends": "airbnb",
-    "plugins": [
-        "react"
-    ]
+  "extends": "airbnb/base",
+  "rules": {
+    "max-len": ["warn", { "ignoreComments": true }]
+  }
 }

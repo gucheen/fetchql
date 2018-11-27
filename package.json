@@ -1,6 +1,6 @@
 {
   "name": "fetchql",
-  "version": "2.3.0",
+  "version": "3.0.0",
   "description": "GraphQL query client with Fetch",
   "main": "index.js",
   "module": "lib/fetchql.es.js",
@@ -46,7 +46,7 @@
     "jsdoc": "^3.5.5",
     "mocha": "^3.2.0",
     "node-fetch": "^1.5.2",
-    "npm-run-all": "^4.1.2"
+    "npm-run-all": "^4.1.5"
   },
   "dependencies": {}
 }

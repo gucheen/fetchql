@@ -3,6 +3,7 @@ class FetchInterceptor {
   constructor() {
     this.interceptors = [];
 
+    /* global fetch */
     this.fetch = (...args) => this.interceptorWrapper(fetch, ...args);
   }
 
@@ -14,7 +15,7 @@ class FetchInterceptor {
     const removeIndex = [];
 
     if (Array.isArray(interceptors)) {
-      interceptors.map(interceptor => {
+      interceptors.map((interceptor) => {
         removeIndex.push(this.interceptors.length);
         return this.interceptors.push(interceptor);
       });
@@ -30,7 +31,7 @@ class FetchInterceptor {
 
   /**
    * remove interceptors by indexes
-   * @param {number[]} indexes 
+   * @param {number[]} indexes
    */
   removeInterceptors(indexes) {
     if (Array.isArray(indexes)) {
@@ -168,7 +169,7 @@ class FetchQL extends FetchInterceptor {
     this.onStart();
 
     return this.fetch(this.url, options)
-      .then(res => {
+      .then((res) => {
         if (res.ok) {
           return res.json();
         }
@@ -226,7 +227,7 @@ class FetchQL extends FetchInterceptor {
     const fullData = {};
 
     // check cache status
-    const unCachedEnumList = EnumNameList.filter(element => {
+    const unCachedEnumList = EnumNameList.filter((element) => {
       if (this.EnumMap[element]) {
         // enum has been cached
         fullData[element] = this.EnumMap[element];
@@ -269,7 +270,7 @@ class FetchQL extends FetchInterceptor {
     this.onStart();
 
     return this.fetch(this.url, options)
-      .then(res => {
+      .then((res) => {
         if (res.ok) {
           return res.json();
         }
@@ -297,7 +298,7 @@ class FetchQL extends FetchInterceptor {
           // merge enums' data
           const passData = Object.assign(fullData, data);
           // cache new enums' data
-          Object.keys(data).map(key => {
+          Object.keys(data).map((key) => {
             this.EnumMap[key] = data[key];
             return key;
           });

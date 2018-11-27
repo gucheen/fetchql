@@ -30,7 +30,7 @@ declare class FetchQL {
   getUrl(): string;
 }
 
-export interface FetchQLInterceptor {
+export class FetchQLInterceptor {
   request?: (url: string, config: any) => any;
   requestError?: (error: any) => any;
   response?: (response: Response | any) => Response | any;
