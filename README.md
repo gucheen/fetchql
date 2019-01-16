@@ -1,4 +1,5 @@
 ![FetchQL](fetchql_logo.png)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fgucheen%2Ffetchql.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fgucheen%2Ffetchql?ref=badge_shield)
 
 [![npm](https://img.shields.io/npm/v/fetchql.svg?style=flat-square)](https://www.npmjs.com/package/fetchql)
 [![Build Status](https://travis-ci.org/gucheen/fetchql.svg?branch=master)](https://travis-ci.org/gucheen/fetchql)
@@ -243,3 +244,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fgucheen%2Ffetchql.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fgucheen%2Ffetchql?ref=badge_large)
