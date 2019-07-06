@@ -35,7 +35,7 @@
     "babel-preset-stage-0": "^6.5.0",
     "babel-preset-stage-1": "^6.24.1",
     "babel-register": "^6.9.0",
-    "chai": "^3.5.0",
+    "chai": "^4.2.0",
     "coveralls": "^2.11.14",
     "eslint": "^3.11.1",
     "eslint-config-airbnb": "^13.0.0",
