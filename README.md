@@ -111,7 +111,7 @@ FetchQL is a query client for GraphQL server works on both browser and Node(need
     
     `query` and `variables` are followed the specification fo GraphQL.
     
-    If any errors exist(from query response), will reject the promise.
+    If `Data` was missing or `null`, will **reject** the promise.
 
     * opts - additional options(will not be passed to server)
 
