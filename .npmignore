@@ -1,4 +1,6 @@
 docs
 .vscode
 coverage
-
+fetchql_logo.png
+test
+.github
