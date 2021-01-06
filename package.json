@@ -25,7 +25,7 @@
   "author": "guchengf@gmail.com",
   "license": "MIT",
   "devDependencies": {
-    "apollo-server": "^0.1.4",
+    "apollo-server": "^2.14.2",
     "babel-cli": "^6.18.0",
     "babel-core": "^6.9.0",
     "babel-plugin-transform-es2015-modules-umd": "^6.18.0",
